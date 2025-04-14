@@ -8,7 +8,13 @@ defineProps({
 </script>
 
 <template>
-	<h1>Bienvenue {{ user }} sur votre gestionnaire de questionnaire</h1>
+	<v-sheet
+		elevation="4"
+		rounded>
+		<h1>Bienvenue <span class="text-green">{{ user }}</span> sur votre <b>gestionnaire de questionnaire</b></h1>
 
-	<h2>Cette page vous permet de voir, créer, modifier et supprimer vos questionnaires !</h2>
+		<br>
+
+		<h2>Cette page vous permet de voir, créer, modifier et supprimer vos questionnaires !</h2>
+	</v-sheet>
 </template>

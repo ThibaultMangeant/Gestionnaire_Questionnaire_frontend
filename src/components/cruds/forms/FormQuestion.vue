@@ -7,10 +7,12 @@
 		<v-form @submit.prevent>
 			<v-text-field
 				label="Nom de la question"
+				placeholder="Question n°1"
 				clearable>
 			</v-text-field>
 			<v-text-field
 				label="Ennoncé de la question"
+				placeholder="Quel est la couleur du ciel ?"
 				clearable>
 			</v-text-field>
 			<v-text-field
