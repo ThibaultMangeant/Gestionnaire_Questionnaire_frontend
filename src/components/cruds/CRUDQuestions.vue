@@ -1,4 +1,6 @@
 <script setup>
+	import FormQuestion from './forms/FormQuestion.vue';
+
 	import axios from '../../axios.js';
 	import { ref } from 'vue';
 
@@ -6,6 +8,8 @@
 	const searching = ref(false);
 
 	const loading = ref(false)
+
+	const showForm = ref(false);
 
 	function fetchQuestions()
 	{
@@ -66,7 +70,7 @@
 					></v-btn>
 					<v-btn @click="deleteQuestion(question)"
 						color="red"
-						icon="mdi-minus-circle"
+						icon="mdi-close-circle"
 						variant="text"
 					></v-btn>
 				</template>
@@ -77,6 +81,12 @@
 			</v-list-item>
 		</v-list>
 
-		<v-btn prepend-icon="mdi-plus" size="small">Ajouter une question</v-btn>
+		<v-btn @click="showForm = !showForm" prepend-icon="mdi-plus" size="small">
+			Ajouter une question
+		</v-btn>
 	</v-card>
+
+	<br>
+
+	<FormQuestion v-if="showForm"/>
 </template>

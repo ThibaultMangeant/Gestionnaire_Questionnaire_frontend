@@ -1,4 +1,6 @@
 <script setup>
+	import FormQuestionnaire from './forms/FormQuestionnaire.vue';
+
 	import axios from '../../axios.js';
 	import { ref } from 'vue';
 
@@ -6,6 +8,8 @@
 	const searching = ref(false);
 
 	const loading = ref(false);
+
+	const showForm = ref(false);
 
 	function fetchQuestionnaires()
 	{
@@ -64,7 +68,7 @@
 					></v-btn>
 					<v-btn @click="deleteQuestionnaire(questionnaire)"
 						color="red"
-						icon="mdi-minus-circle"
+						icon="mdi-close-circle"
 						variant="text"
 					></v-btn>
 				</template>
@@ -75,6 +79,12 @@
 			</v-list-item>
 		</v-list>
 
-		<v-btn prepend-icon="mdi-plus" size="small">Ajouter un questionnaire</v-btn>
+		<v-btn @click="showForm = !showForm" prepend-icon="mdi-plus" size="small">
+			Ajouter un questionnaire
+		</v-btn>
 	</v-card>
+
+	<br>
+
+	<FormQuestionnaire v-if="showForm"/>
 </template>
