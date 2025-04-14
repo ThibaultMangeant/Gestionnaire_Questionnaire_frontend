@@ -3,20 +3,25 @@
 	import { ref } from 'vue';
 
 	const questions = ref([]);
-	const recherche = ref(false);
+	const searching = ref(false);
+
+	const loading = ref(false)
 
 	function fetchQuestions()
 	{
-		recherche.value = true;
+		searching.value = true;
+		loading.value = true;
 
 		axios.get('/questions')
 		.then(response => {
-			recherche.value = false;
+			searching.value = false;
+			loading.value = false;
 			questions.value = response.data;
 			console.log(response);
 		})
 		.catch(error => {
-			recherche.value = false;
+			searching.value = false
+			loading.value = false;
 			console.error('Erreur lors de la récupération des questions :', error);
 		});
 
@@ -28,38 +33,24 @@
 	
 	<div class="crud">
 		<h1>Questions :</h1>
-		<p v-if="recherche">Actualisation en cours...</p>
+		<p v-if="searching">Actualisation en cours...</p>
 		<br>
 
-		<button @click="fetchQuestions">Actualiser</button>
+		<v-btn append-icon="mdi-refresh" :loading="loading" size="small" @click="fetchQuestions">Actualiser</v-btn>
 
 		<br>
 
-		<div class="question" v-if="questions.length > 0" v-for="question in questions" :key=question.id>
-			{{ question.name }}<br>{{ question.description }}
-		</div>
+		<v-card
+			v-for="question in questions" :key="question.id"
+			v-if="questions.length > 0"
+			:title="question.name"
+			:text="question.content"
+			variant="tonal">
+		</v-card>
 		<p v-else>Aucune question trouvée</p>
 
 		<br>
 
-		<button>+ Ajouter une question</button>
+		<v-btn prepend-icon="mdi-plus" size="small">Ajouter une question</v-btn>
 	</div>
 </template>
-
-<style scoped>
-.crud
-{
-	border: solid whitesmoke 1px;
-}
-
-.question
-{
-	border: solid whitesmoke 1px;
-}
-
-button
-{
-	background-color:hsla(160, 100%, 37%, 1);
-	text-align: center;
-}
-</style>

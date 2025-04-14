@@ -3,20 +3,25 @@
 	import { ref } from 'vue';
 
 	const questionnaires = ref([]);
-	const recherche = ref(false);
+	const searching = ref(false);
+
+	const loading = ref(false);
 
 	function fetchQuestionnaires()
 	{
-		recherche.value = true;
+		searching.value = true;
+		loading.value = true;
 
 		axios.get('/questionnaires')
 		.then(response => {
-			recherche.value = false;
+			searching.value = false;
+			loading.value = false;
 			questionnaires.value = response.data;
 			console.log(response);
 		})
 		.catch(error => {
-			recherche.value = false;
+			searching.value = false;
+			loading.value = false;
 			console.error('Erreur lors de la récupération des questionnaires :', error);
 		});
 	}
@@ -25,39 +30,25 @@
 <template>
 	<div class="crud">
 		<h1>Questionnaires :</h1>
-		<p v-if="recherche">Actualisation en cours...</p>
+		<p v-if="searching">Actualisation en cours...</p>
 
 		<br>
 
-		<button @click="fetchQuestionnaires">Actualiser</button>
+		<v-btn append-icon="mdi-refresh" :loading="loading" size="small" @click="fetchQuestionnaires">Rafraîchir</v-btn>
 
 		<br>
 
-		<div class="questionnaire" v-if="questionnaires.length > 0" v-for="questionnaire in questionnaires" :key=questionnaire.id>
-			{{ questionnaire.name }}<br>{{ questionnaire.description }}
-		</div>
+		<v-card
+			v-for="questionnaire in questionnaires" :key="questionnaire.id"
+			v-if="questionnaires.length > 0"
+			:title="questionnaire.name"
+			:text="questionnaire.description"
+			variant="tonal">
+		</v-card>
 		<p v-else>Aucun questionnaire trouvé</p>
 
 		<br>
 
-		<button>+ Ajouter un questionnaire</button>
+		<v-btn prepend-icon="mdi-plus" size="small">+ Ajouter un questionnaire</v-btn>
 	</div>
 </template>
-
-<style scoped>
-.crud
-{
-	border: solid whitesmoke 1px;
-}
-
-.questionnaire
-{
-	border: solid whitesmoke 1px;
-}
-
-button
-{
-	background-color:hsla(160, 100%, 37%, 1);
-	text-align: center;
-}
-</style>
