@@ -25,6 +25,23 @@
 			console.error('Erreur lors de la récupération des questionnaires :', error);
 		});
 	}
+	
+	function updateQuestionnaire(questionnaire)
+	{
+
+	}
+
+	function deleteQuestionnaire(questionnaire)
+	{
+		axios.delete(`/questionnaires/${questionnaire.id}`)
+		.then(response => {
+			console.log('Questionnaire supprimé avec succès', response.data)
+			questionnaires.value = questionnaires.value.filter(q => q.id !== questionnaire.id)
+		})
+		.catch(error => {
+			console.error('Erreur lors de la suppression', error)
+		});
+	}
 </script>
 
 <template>
@@ -33,12 +50,24 @@
 			<v-toolbar-title>Questionnaires</v-toolbar-title>
 			<v-btn append-icon="mdi-refresh" :loading="loading" size="small" @click="fetchQuestionnaires">Rafraîchir</v-btn>
 		</v-toolbar>
-		<v-list lines="two" rounded="xl" variant="tonal">
+		<v-list lines="two" variant="tonal">
 			<v-list-item
 				v-for="questionnaire in questionnaires" :key="questionnaire.id"
 				v-if="questionnaires.length > 0">
 				<v-list-item-title>{{ questionnaire.name }}</v-list-item-title>
 				<v-list-item-subtitle>{{ questionnaire.description }}</v-list-item-subtitle>
+				<template v-slot:append>
+					<v-btn @click="updateQuestionnaire(questionnaire)"
+						color="red"
+						icon="mdi-pencil"
+						variant="text"
+					></v-btn>
+					<v-btn @click="deleteQuestionnaire(questionnaire)"
+						color="red"
+						icon="mdi-minus-circle"
+						variant="text"
+					></v-btn>
+				</template>
 				<v-divider></v-divider>
 			</v-list-item>
 			<v-list-item v-else>
