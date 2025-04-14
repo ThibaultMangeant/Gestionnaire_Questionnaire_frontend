@@ -33,7 +33,7 @@
 
 	function deleteQuestion(question)
 	{
-		axios.delete(`/question/${question.id}`)
+		axios.delete(`/questions/${question.id}`)
 		.then(response => {
 			console.log('Question supprimée avec succès', response.data)
 			questions.value = questions.value.filter(q => q.id !== question.id)
