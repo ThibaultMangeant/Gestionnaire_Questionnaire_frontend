@@ -64,7 +64,6 @@
 				<v-list-item-subtitle>{{ question.content }}</v-list-item-subtitle>
 				<template v-slot:append>
 					<v-btn @click="updateQuestion(question)"
-						color="red"
 						icon="mdi-pencil"
 						variant="text"
 					></v-btn>

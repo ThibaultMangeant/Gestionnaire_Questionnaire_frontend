@@ -62,7 +62,6 @@
 				<v-list-item-subtitle>{{ questionnaire.description }}</v-list-item-subtitle>
 				<template v-slot:append>
 					<v-btn @click="updateQuestionnaire(questionnaire)"
-						color="red"
 						icon="mdi-pencil"
 						variant="text"
 					></v-btn>
