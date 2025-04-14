@@ -30,27 +30,24 @@
 </script>
 
 <template>
-	
-	<div class="crud">
-		<h1>Questions :</h1>
-		<p v-if="searching">Actualisation en cours...</p>
-		<br>
-
-		<v-btn append-icon="mdi-refresh" :loading="loading" size="small" @click="fetchQuestions">Actualiser</v-btn>
-
-		<br>
-
-		<v-card
-			v-for="question in questions" :key="question.id"
-			v-if="questions.length > 0"
-			:title="question.name"
-			:text="question.content"
-			variant="tonal">
-		</v-card>
-		<p v-else>Aucune question trouvée</p>
-
-		<br>
+	<v-card>
+		<v-toolbar>
+			<v-toolbar-title>Questions</v-toolbar-title>
+			<v-btn append-icon="mdi-refresh" :loading="loading" size="small" @click="fetchQuestions">Rafraîchir</v-btn>
+		</v-toolbar>
+		<v-list lines="two" rounded="xl" variant="tonal">
+			<v-list-item
+				v-for="question in questions" :key="question.id"
+				v-if="questions.length > 0">
+				<v-list-item-title>{{ question.name }}</v-list-item-title>
+				<v-list-item-subtitle>{{ question.content }}</v-list-item-subtitle>
+				<v-divider></v-divider>
+			</v-list-item>
+			<v-list-item v-else>
+				<v-list-item-title>Aucune question trouvée</v-list-item-title>
+			</v-list-item>
+		</v-list>
 
 		<v-btn prepend-icon="mdi-plus" size="small">Ajouter une question</v-btn>
-	</div>
+	</v-card>
 </template>

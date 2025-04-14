@@ -28,27 +28,24 @@
 </script>
 
 <template>
-	<div class="crud">
-		<h1>Questionnaires :</h1>
-		<p v-if="searching">Actualisation en cours...</p>
+	<v-card>
+		<v-toolbar>
+			<v-toolbar-title>Questionnaires</v-toolbar-title>
+			<v-btn append-icon="mdi-refresh" :loading="loading" size="small" @click="fetchQuestionnaires">Rafraîchir</v-btn>
+		</v-toolbar>
+		<v-list lines="two" rounded="xl" variant="tonal">
+			<v-list-item
+				v-for="questionnaire in questionnaires" :key="questionnaire.id"
+				v-if="questionnaires.length > 0">
+				<v-list-item-title>{{ questionnaire.name }}</v-list-item-title>
+				<v-list-item-subtitle>{{ questionnaire.description }}</v-list-item-subtitle>
+				<v-divider></v-divider>
+			</v-list-item>
+			<v-list-item v-else>
+				<v-list-item-title>Aucun questionnaire trouvé</v-list-item-title>
+			</v-list-item>
+		</v-list>
 
-		<br>
-
-		<v-btn append-icon="mdi-refresh" :loading="loading" size="small" @click="fetchQuestionnaires">Rafraîchir</v-btn>
-
-		<br>
-
-		<v-card
-			v-for="questionnaire in questionnaires" :key="questionnaire.id"
-			v-if="questionnaires.length > 0"
-			:title="questionnaire.name"
-			:text="questionnaire.description"
-			variant="tonal">
-		</v-card>
-		<p v-else>Aucun questionnaire trouvé</p>
-
-		<br>
-
-		<v-btn prepend-icon="mdi-plus" size="small">+ Ajouter un questionnaire</v-btn>
-	</div>
+		<v-btn prepend-icon="mdi-plus" size="small">Ajouter un questionnaire</v-btn>
+	</v-card>
 </template>
