@@ -1,5 +1,4 @@
 <script setup>
-	import FormQuestionnaire from '../components/cruds/forms/FormQuestionnaire.vue';
 
 	import axios from '../axios.js';
 	import { ref } from 'vue';

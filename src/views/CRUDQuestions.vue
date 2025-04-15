@@ -53,29 +53,29 @@
 			</v-btn>
 		</v-toolbar>
 		<v-list lines="two" variant="tonal">
-			<RouterLink to="/questionnaires">
-				<v-list-item
-					v-for="question in questions" :key="question.id"
-					v-if="questions.length > 0">
+			<v-list-item
+				v-for="question in questions" :key="question.id"
+				v-if="questions.length > 0">
+				<RouterLink to="/questionnaires">
 					<v-list-item-title>{{ question.name }}</v-list-item-title>
 					<v-list-item-subtitle>{{ question.content }}</v-list-item-subtitle>
-					<template v-slot:append>
-						<v-btn @click="updateQuestion(question)"
-							icon="mdi-pencil"
-							variant="text"
-						></v-btn>
-						<v-btn @click="deleteQuestion(question)"
-							color="red"
-							icon="mdi-close-circle"
-							variant="text"
-						></v-btn>
-					</template>
-					<v-divider></v-divider>
-				</v-list-item>
-				<v-list-item v-else>
-					<v-list-item-title>Aucune question trouvée</v-list-item-title>
-				</v-list-item>
-			</RouterLink>
+				</RouterLink>
+				<template v-slot:append>
+					<v-btn @click="updateQuestion(question)"
+						icon="mdi-pencil"
+						variant="text"
+					></v-btn>
+					<v-btn @click="deleteQuestion(question)"
+						color="red"
+						icon="mdi-close-circle"
+						variant="text"
+					></v-btn>
+				</template>
+				<v-divider></v-divider>
+			</v-list-item>
+			<v-list-item v-else>
+				<v-list-item-title>Aucune question trouvée</v-list-item-title>
+			</v-list-item>
 		</v-list>
 
 		<v-btn prepend-icon="mdi-plus" size="small">
