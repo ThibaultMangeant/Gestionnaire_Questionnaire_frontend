@@ -1,29 +1,34 @@
 
 
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
-import QuestionsView from '../views/QuestionsView.vue';
+import App from '../App.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: '/',
-      name: 'home',
-      component: HomeView,
+	  redirect: '/questionnaires'
     },
     {
-      path: '/about',
-      name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import('../views/AboutView.vue'),
+      path: '/questionnaires',
+      name: 'questionnaires',
+      component: () => import('../views/CRUDQuestionnaires.vue'),
     },
 	{
-		path: '/questions',
+		path: '/questionnaires/:idQuestionnaire',
 		name: 'questions',
-		component: QuestionsView,
+		component: () => import('../views/CRUDQuestions.vue'),
+	},
+	{
+		path: '/questionnaires/ajouter-questionnaire',
+		name: 'ajouter-questionnaire',
+		component: () => import('../views/forms/FormQuestionnaire.vue')
+	},
+	{
+		path: '/questionnaires/:id/ajouter-question',
+		name: 'ajouter-question',
+		component: () => import('../views/forms/FormQuestion.vue')
 	}
   ],
 })

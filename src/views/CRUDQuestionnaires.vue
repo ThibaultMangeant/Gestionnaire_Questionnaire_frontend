@@ -1,15 +1,13 @@
 <script setup>
-	import FormQuestionnaire from './forms/FormQuestionnaire.vue';
+	import FormQuestionnaire from '../components/cruds/forms/FormQuestionnaire.vue';
 
-	import axios from '../../axios.js';
+	import axios from '../axios.js';
 	import { ref } from 'vue';
 
 	const questionnaires = ref([]);
 	const searching = ref(false);
 
 	const loading = ref(false);
-
-	const showForm = ref(false);
 
 	function fetchQuestionnaires()
 	{
@@ -58,8 +56,10 @@
 			<v-list-item
 				v-for="questionnaire in questionnaires" :key="questionnaire.id"
 				v-if="questionnaires.length > 0">
-				<v-list-item-title>{{ questionnaire.name }}</v-list-item-title>
-				<v-list-item-subtitle>{{ questionnaire.description }}</v-list-item-subtitle>
+				<RouterLink :to="'/questionnaires/' + questionnaire.id">
+					<v-list-item-title>{{ questionnaire.name }}</v-list-item-title>
+					<v-list-item-subtitle>{{ questionnaire.description }}</v-list-item-subtitle>
+				</RouterLink>
 				<template v-slot:append>
 					<v-btn @click="updateQuestionnaire(questionnaire)"
 						icon="mdi-pencil"
@@ -78,12 +78,11 @@
 			</v-list-item>
 		</v-list>
 
-		<v-btn @click="showForm = !showForm" prepend-icon="mdi-plus" size="small">
-			Ajouter un questionnaire
-		</v-btn>
+		<RouterLink to="/questionnaires/ajouter-questionnaire">
+			<v-btn prepend-icon="mdi-plus" size="small">
+				Ajouter un questionnaire
+			</v-btn>
+		</RouterLink>
+		
 	</v-card>
-
-	<br>
-
-	<FormQuestionnaire v-if="showForm"/>
 </template>

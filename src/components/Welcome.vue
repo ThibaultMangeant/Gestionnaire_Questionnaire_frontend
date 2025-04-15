@@ -11,7 +11,7 @@ defineProps({
 	<v-sheet
 		elevation="4"
 		rounded>
-		<h1>Bienvenue <span class="text-green">{{ user }}</span> sur votre <b>gestionnaire de questionnaire</b></h1>
+		<h1>Bienvenue <span class="text-green">{{ user }}</span></h1>
 
 		<br>
 
