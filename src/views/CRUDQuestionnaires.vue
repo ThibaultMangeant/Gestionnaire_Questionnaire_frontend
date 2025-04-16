@@ -1,5 +1,5 @@
 <script setup>
-
+	import { onMounted } from 'vue'
 	import axios from '../axios.js';
 	import { ref } from 'vue';
 
@@ -43,6 +43,11 @@
 			console.error('Erreur lors de la suppression', error)
 		});
 	}
+
+	onMounted(() =>
+	{
+		fetchQuestionnaires();
+	});
 </script>
 
 <template>

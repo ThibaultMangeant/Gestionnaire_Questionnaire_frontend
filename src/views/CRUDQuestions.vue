@@ -1,6 +1,10 @@
 <script setup>
 	import axios from '../axios.js';
+	import { onMounted } from 'vue'
+	import { useRoute } from 'vue-router'
 	import { ref } from 'vue';
+
+	const route = useRoute();
 
 	const questions = ref([]);
 	const searching = ref(false);
@@ -42,9 +46,17 @@
 			console.error('Erreur lors de la suppression', error)
 		});
 	}
+
+	onMounted(() =>
+	{
+		fetchQuestions(route.params.idQuestionnaire)
+	})
 </script>
 
 <template>
+	<RouterLink to="/questionnaires">
+		<v-btn icon="mdi-arrow-left"></v-btn>
+	</RouterLink>
 	<v-card>
 		<v-toolbar>
 			<v-toolbar-title>Questions</v-toolbar-title>
