@@ -1,7 +1,6 @@
 
 
 import { createRouter, createWebHistory } from 'vue-router'
-import App from '../App.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -21,13 +20,13 @@ const router = createRouter({
 		component: () => import('../views/CRUDQuestions.vue'),
 	},
 	{
-		path: '/questionnaires/ajouter-questionnaire',
-		name: 'ajouter-questionnaire',
+		path: '/questionnaires/add-questionnaire',
+		name: 'add-questionnaire',
 		component: () => import('../views/forms/FormQuestionnaire.vue')
 	},
 	{
-		path: '/questionnaires/:id/ajouter-question',
-		name: 'ajouter-question',
+		path: '/questionnaires/:idQuestionnaire/add-question',
+		name: 'add-question',
 		component: () => import('../views/forms/FormQuestion.vue')
 	}
   ],

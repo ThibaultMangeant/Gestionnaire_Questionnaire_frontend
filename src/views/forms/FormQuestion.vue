@@ -9,17 +9,33 @@
 	const content = ref('');
 	const order = ref(0);
 
-	function addQuestion($idQuestionnaire)
+	function addQuestion(idQuestionnaire)
 	{
 		loading.value = true;
 
-		loading.value = false;
+		axios.post('/questions/' + idQuestionnaire, {
+			// type: type.value,
+			name: name.value,
+			content: content.value,
+			order: order.value
+		})
+		.then(response => {
+			loading.value = false;
+			console.log(response);
+		})
+		.catch(error => {
+			loading.value = false;
+			console.error('Erreur lors de la création de la question :', error);
+		});
 	}
 </script>
 
 <template>
+	<RouterLink :to="'/questionnaires/' + $route.params.idQuestionnaire">
+		<v-btn icon="mdi-arrow-left"></v-btn>
+	</RouterLink>
 	<v-card>
-		<v-form @submit.prevent="addQuestion($route.params.$idQuestionnaire)">
+		<v-form @submit.prevent="addQuestion($route.params.idQuestionnaire)">
 			<v-select
 				v-model="type"
 				variant="outlined"

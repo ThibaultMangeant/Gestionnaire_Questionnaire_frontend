@@ -30,6 +30,9 @@
 </script>
 
 <template>
+	<RouterLink to="/questionnaires">
+		<v-btn icon="mdi-arrow-left"></v-btn>
+	</RouterLink>
 	<v-card>
 		<v-form @submit.prevent="addQuestionnaire">
 			<v-text-field

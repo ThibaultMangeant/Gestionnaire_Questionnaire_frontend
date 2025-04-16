@@ -90,7 +90,7 @@
 			</v-list-item>
 		</v-list>
 
-		<RouterLink :to="'/questionnaires/' + $route.params.idQuestionnaire + '/ajouter-question'">
+		<RouterLink :to="'/questionnaires/' + $route.params.idQuestionnaire + '/add-question'">
 			<v-btn prepend-icon="mdi-plus" size="small">
 				Ajouter une question
 			</v-btn>

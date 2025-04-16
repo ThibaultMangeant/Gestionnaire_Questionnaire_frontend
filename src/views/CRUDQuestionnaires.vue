@@ -82,7 +82,7 @@
 			</v-list-item>
 		</v-list>
 
-		<RouterLink to="/questionnaires/ajouter-questionnaire">
+		<RouterLink to="/questionnaires/add-questionnaire">
 			<v-btn prepend-icon="mdi-plus" size="small">
 				Ajouter un questionnaire
 			</v-btn>
