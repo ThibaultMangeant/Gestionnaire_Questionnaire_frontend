@@ -5,6 +5,10 @@
 <template>
 	<v-card>
 		<v-form @submit.prevent>
+			<v-select
+				label="Type de la question"
+				:items="['Question ouverte', 'Question à choix multiple', 'Vrai/Faux', 'Curseur']">
+			</v-select>
 			<v-text-field
 				label="Nom de la question"
 				placeholder="Question n°1"
