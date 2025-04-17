@@ -6,9 +6,9 @@
 
 	const form = ref();
 
-	const usermail = ref(propUsermail);
-	const name = ref(propName);
-	const description = ref(propDescription);
+	const usermail = ref('');
+	const name = ref('');
+	const description = ref('');
 
 	const emailRules =
 	[
@@ -51,7 +51,7 @@
 </script>
 
 <template>
-	<RouterLink to="/questionnaires">
+	<RouterLink to="/questionnaire">
 		<v-btn icon="mdi-arrow-left"></v-btn>
 	</RouterLink>
 	<v-card>

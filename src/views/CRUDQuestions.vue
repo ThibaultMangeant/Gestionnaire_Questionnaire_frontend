@@ -14,7 +14,7 @@
 	{
 		loading.value = true;
 
-		axios.get('/questions/' + idQuestionnaire)
+		axios.get('/question/' + idQuestionnaire)
 		.then(response => {
 			loading.value = false;
 			questions.value = response.data;
@@ -50,7 +50,7 @@
 </script>
 
 <template>
-	<RouterLink to="/questionnaires">
+	<RouterLink to="/questionnaire">
 		<v-btn icon="mdi-arrow-left"></v-btn>
 	</RouterLink>
 	<v-card>
@@ -64,10 +64,8 @@
 			<v-list-item
 				v-for="question in questions" :key="question.id"
 				v-if="questions.length > 0">
-				<RouterLink to="/questionnaires">
-					<v-list-item-title>{{ question.name }}</v-list-item-title>
-					<v-list-item-subtitle>{{ question.content }}</v-list-item-subtitle>
-				</RouterLink>
+				<v-list-item-title>{{ question.name }}</v-list-item-title>
+				<v-list-item-subtitle>{{ question.content }}</v-list-item-subtitle>
 				<template v-slot:append>
 					<v-btn @click="updateQuestion(question)"
 						icon="mdi-pencil"
@@ -86,7 +84,7 @@
 			</v-list-item>
 		</v-list>
 
-		<RouterLink :to="'/questionnaires/' + $route.params.idQuestionnaire + '/add-question'">
+		<RouterLink :to="'/questionnaire/add/' + $route.params.idQuestionnaire">
 			<v-btn prepend-icon="mdi-plus" size="small">
 				Ajouter une question
 			</v-btn>

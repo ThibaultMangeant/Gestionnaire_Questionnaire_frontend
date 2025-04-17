@@ -60,7 +60,7 @@
 </script>
 
 <template>
-	<RouterLink :to="'/questionnaires/' + $route.params.idQuestionnaire">
+	<RouterLink :to="'/questionnaire/' + $route.params.idQuestionnaire">
 		<v-btn icon="mdi-arrow-left"></v-btn>
 	</RouterLink>
 	<v-card>

@@ -18,7 +18,7 @@
 	{
 		loading.value = true;
 
-		axios.get('/questionnaires')
+		axios.get('/questionnaire')
 		.then(response => {
 			loading.value = false;
 			questionnaires.value = response.data;
@@ -37,7 +37,7 @@
 
 	function deleteQuestionnaire(questionnaire)
 	{
-		axios.delete(`/questionnaires/${questionnaire.id}`)
+		axios.delete(`/questionnaire/${questionnaire.id}`)
 		.then(response => {
 			console.log('Questionnaire supprimé avec succès', response.data)
 			questionnaires.value = questionnaires.value.filter(q => q.id !== questionnaire.id)
@@ -63,12 +63,12 @@
 			<v-list-item
 				v-for="questionnaire in questionnaires" :key="questionnaire.id"
 				v-if="questionnaires.length > 0">
-				<RouterLink :to="'/questionnaires/' + questionnaire.id">
+				<RouterLink :to="'/questionnaire/' + questionnaire.id">
 					<v-list-item-title>{{ questionnaire.name }}</v-list-item-title>
 					<v-list-item-subtitle>{{ questionnaire.description }}</v-list-item-subtitle>
 				</RouterLink>
 				<template v-slot:append>
-					<RouterLink :to="'/questionnaires/' + questionnaire.id + '/update-questionnaire'">
+					<RouterLink :to="'/questionnaire/update/' + questionnaire.id">
 						<v-btn @click="updateQuestionnaire(questionnaire)"
 							icon="mdi-pencil"
 							variant="text"
@@ -87,7 +87,7 @@
 			</v-list-item>
 		</v-list>
 
-		<RouterLink to="/questionnaires/add-questionnaire">
+		<RouterLink to="/questionnaire/add">
 			<v-btn prepend-icon="mdi-plus" size="small">
 				Ajouter un questionnaire
 			</v-btn>

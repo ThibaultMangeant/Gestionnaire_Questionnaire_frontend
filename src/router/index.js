@@ -7,33 +7,37 @@ const router = createRouter(
 	[
 		{
 			path: '/',
-			redirect: '/questionnaires'
+			redirect: '/questionnaire'
 		},
 		{
-			path: '/questionnaires',
-			name: 'questionnaires',
+			path: '/questionnaire',
+			name: 'questionnaire',
 			component: () => import('../views/CRUDQuestionnaires.vue'),
 		},
+
 		{
-			path: '/questionnaires/:idQuestionnaire',
-			name: 'questions',
-			component: () => import('../views/CRUDQuestions.vue'),
-		},
-		{
-			path: '/questionnaires/add-questionnaire',
+			path: '/questionnaire/add',
 			name: 'add-questionnaire',
 			component: () => import('../views/forms/FormQuestionnaire.vue')
 		},
 		{
-			path: '/questionnaires/:idQuestionnaire/add-question',
+			path: '/questionnaire/update/:idQuestionnaire',
+			name: 'update-questionnaire',
+			component: () => import('../views/forms/FormQuestionnaire.vue')
+		},
+
+
+		{
+			path: '/questionnaire/:idQuestionnaire',
+			name: 'question',
+			component: () => import('../views/CRUDQuestions.vue'),
+		},
+
+		{
+			path: '/questionnaire/add/:idQuestionnaire',
 			name: 'add-question',
 			component: () => import('../views/forms/FormQuestion.vue')
 		},
-		{
-			path: '/questionnaires/:idQuestionnaire/update-questionnaire',
-			name: 'update-questionnaire',
-			component: () => import('../views/forms/FormQuestionnaire.vue')
-		}
 	],
 });
 
