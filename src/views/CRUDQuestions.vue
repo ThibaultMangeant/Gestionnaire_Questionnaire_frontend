@@ -7,24 +7,20 @@
 	const route = useRoute();
 
 	const questions = ref([]);
-	const searching = ref(false);
 
 	const loading = ref(false);
 
 	function fetchQuestions(idQuestionnaire)
 	{
-		searching.value = true;
 		loading.value = true;
 
 		axios.get('/questions/' + idQuestionnaire)
 		.then(response => {
-			searching.value = false;
 			loading.value = false;
 			questions.value = response.data;
 			console.log(response);
 		})
 		.catch(error => {
-			searching.value = false
 			loading.value = false;
 			console.error('Erreur lors de la récupération des questions :', error);
 		});

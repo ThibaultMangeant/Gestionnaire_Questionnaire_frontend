@@ -6,9 +6,9 @@
 
 	const form = ref();
 
-	const usermail = ref('');
-	const name = ref('');
-	const description = ref('');
+	const usermail = ref(propUsermail);
+	const name = ref(propName);
+	const description = ref(propDescription);
 
 	const emailRules =
 	[
