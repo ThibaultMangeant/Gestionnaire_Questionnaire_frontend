@@ -6,15 +6,9 @@
 
 	const form = ref();
 
-	const usermail = ref('');
+	const user_id = ref(1);
 	const name = ref('');
 	const description = ref('');
-
-	const emailRules =
-	[
-		value => { return value ? true : 'Vous devez saisir une adresse mail.'},
-		value => { return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(value) ? true : "L'adresse email doit être valide"}
-	];
 
 	const nameRules =
 	[
@@ -33,9 +27,9 @@
 	{
 		loading.value = true;
 
-		axios.post('/questionnaires',
+		axios.post('/questionnaire',
 		{
-			usermail: usermail.value,
+			user_id: user_id.value,
 			name: name.value,
 			description: description.value
 		})
@@ -56,16 +50,6 @@
 	</RouterLink>
 	<v-card>
 		<v-form ref="form">
-			<v-text-field
-				v-model="usermail"
-				:rules="emailRules"
-				variant="outlined"
-				label="Adresse Email *"
-				placeholder="johndoe@gmail.com"
-				type="email"
-				clearable
-				required>
-			</v-text-field>
 			<v-text-field
 				v-model="name"
 				:rules="nameRules"
