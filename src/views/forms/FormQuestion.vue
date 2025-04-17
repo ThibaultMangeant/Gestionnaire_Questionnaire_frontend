@@ -26,7 +26,7 @@
 
 	const orderRules =
 	[
-		value => { return value ? true : "Vous devez saisir un ordre."},
+		value => { return value !== undefined && value !== null && value !== '' ? true : "Vous devez saisir un ordre."},
 		value => { return value >= 0 ? true : "L'ordre ne peut être négatif"}
 	];
 
@@ -35,14 +35,16 @@
 		const { valid } = await form.value.validate();
 
 		if (valid)
+		{
 			addQuestion($idQuestionnaire);
+		}
 	}
 
 	function addQuestion(idQuestionnaire)
 	{
 		loading.value = true;
 
-		axios.post('/questions/' + idQuestionnaire, {
+		axios.post('/question/' + idQuestionnaire, {
 			// type: type.value,
 			name: name.value,
 			content: content.value,

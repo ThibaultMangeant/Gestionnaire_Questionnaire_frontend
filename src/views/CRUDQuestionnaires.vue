@@ -3,12 +3,6 @@
 	import axios from '../axios.js';
 	import { ref } from 'vue';
 
-	/*defineProps(
-	{
-		propUsermail: String,
-		propName: String,
-		propDescription: String
-	});*/
 
 	const questionnaires = ref([]);
 
