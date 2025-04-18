@@ -38,6 +38,13 @@ const router = createRouter(
 			name: 'add-question',
 			component: () => import('../views/forms/FormQuestion.vue')
 		},
+
+
+		{
+			path: '/user/authentificate',
+			name: 'user-authentificate',
+			component: () => import('../views/forms/FormUser.vue')
+		}
 	],
 });
 
