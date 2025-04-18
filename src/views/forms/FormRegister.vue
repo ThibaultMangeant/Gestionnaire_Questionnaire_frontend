@@ -1,0 +1,125 @@
+<script setup>
+	import axios from '../../axios.js';
+	import { ref } from 'vue';
+
+	const loading = ref(false);
+
+	const form = ref();
+
+	const name = ref('');
+	const email = ref('');
+	const password = ref('');
+	const confirmPassword = ref('');
+
+
+	const nameRules =
+	[
+		value => { return value ? true : "Vous devez saisir un nom d'utilisateur"}
+	]
+	const emailRules =
+	[
+		value => { return value ? true : 'Vous devez saisir une adresse mail.'},
+		value => { return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(value) ? true : "L'adresse email doit être valide"}
+	];
+
+	const passwordRules =
+	[
+		value => {return value ? true : 'Vous devez saisir un mot de passe'}
+	]
+
+	const confirmPasswordRules =
+	[
+		value => {return value === password.value ? true : "Le mot de passe n'est pas identique."}
+	]
+
+	async function validate()
+	{
+		const { valid } = await form.value.validate();
+
+		if (valid)
+		{
+			registerUser();
+		}
+	}
+
+	function registerUser()
+	{
+		loading.value = true;
+
+		axios.post('/register',
+		{
+			name: name.value,
+			email: email.value,
+			password: password.value,
+			password_confirmation: confirmPassword.value
+
+		})
+		.then(response =>
+		{
+			loading.value = false;
+			console.log('Utilisateur enregistré avec succès.', response.data)
+		})
+		.catch(error =>
+		{
+			loading.value = false;
+			console.error("Erreur lors de l'enregistrement de l'utilisateur.", error)
+		});
+	}
+</script>
+
+<template>
+	<RouterLink to="/questionnaire">
+		<v-btn icon="mdi-arrow-left"></v-btn>
+	</RouterLink>
+	<v-card>
+		<v-form ref="form">
+			<v-text-field
+				v-model="name"
+				:rules="nameRules"
+				variant="outlined"
+				label="Nom d'utilisateur *"
+				placeholder="John doe"
+				clearable
+				required>
+			</v-text-field>
+			<v-text-field
+				v-model="email"
+				:rules="emailRules"
+				variant="outlined"
+				label="Adresse Email *"
+				placeholder="johndoe@gmail.com"
+				type="email"
+				clearable
+				required>
+			</v-text-field>
+			<v-text-field
+				v-model="password"
+				:rules="passwordRules"
+				variant="outlined"
+				label="Mot de passe *"
+				type="password"
+				hint="Vérifier si le caps lock est activé !"
+				clearable
+				required>
+			</v-text-field>
+			<v-text-field
+				v-model="confirmPassword"
+				:rules="confirmPasswordRules"
+				variant="outlined"
+				label="Confirmation du mot de passe *"
+				type="password"
+				hint="Vérifier si le caps lock est activé !"
+				clearable
+				required>
+			</v-text-field>
+			<v-btn @click.prevent="validate"
+				append-icon="mdi-login-variant"
+				type="submit"
+				:loading="loading"
+				block>
+				S'inscrire
+			</v-btn>
+		</v-form>
+	</v-card>
+	<p class="text-red">Les champs marqués d'un astérix (*) sont obligatoires.</p>
+</template>

@@ -10,6 +10,11 @@ import Welcome from './components/Welcome.vue'
 			icon="mdi-account">
 		</v-btn>
 	</RouterLink>
+	<RouterLink to="/user/register">
+		<v-btn
+			icon="mdi-account-plus">
+		</v-btn>
+	</RouterLink>
 	<Welcome user="Thibault" />
 </header>
 

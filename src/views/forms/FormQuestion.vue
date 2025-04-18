@@ -44,7 +44,7 @@
 	{
 		loading.value = true;
 
-		axios.post('/question/' + idQuestionnaire, {
+		axios.post('/api/question/' + idQuestionnaire, {
 			// type: type.value,
 			name: name.value,
 			content: content.value,

@@ -7,7 +7,9 @@ const api = axios.create
 			'Accept': 'application/json',
 			'Content-Type': 'application/json'
 		},
-		baseURL: 'http://localhost/api'
+		baseURL: 'http://localhost',
+		withCredentials: true,
+		withXSRFToken: true
 	}
 );
 

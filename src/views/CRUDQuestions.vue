@@ -14,7 +14,7 @@
 	{
 		loading.value = true;
 
-		axios.get('/question/' + idQuestionnaire)
+		axios.get('/api/question/' + idQuestionnaire)
 		.then(response => {
 			loading.value = false;
 			questions.value = response.data;
@@ -33,7 +33,7 @@
 
 	function deleteQuestion(question)
 	{
-		axios.delete(`/question/${question.id}`)
+		axios.delete(`/api/question/${question.id}`)
 		.then(response => {
 			console.log('Question supprimée avec succès', response.data)
 			questions.value = questions.value.filter(q => q.id !== question.id)

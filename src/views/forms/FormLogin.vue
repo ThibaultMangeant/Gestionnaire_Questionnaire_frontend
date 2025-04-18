@@ -1,6 +1,11 @@
 <script setup>
 	import axios from '../../axios.js';
 	import { ref } from 'vue';
+	import { onMounted } from 'vue';
+
+	const loading = ref(false);
+
+	const form = ref();
 
 	const email = ref('');
 	const password = ref('');
@@ -24,9 +29,43 @@
 
 		if (valid)
 		{
-			
+			loginUser();
 		}
 	}
+
+	function loginUser()
+	{
+		loading.value = true;
+
+		axios.post('/login',
+		{
+			email: email.value,
+			password: password.value,
+			remember: remember.value
+		})
+		.then(response =>
+		{
+			loading.value = false;
+			console.log('Utilisateur connecté avec succès.')
+		})
+		.catch(error =>
+		{
+			loading.value = false;
+			console.error("Erreur lors de la connexion de l'utilisateur.", error)
+		});
+	}
+
+	onMounted(() =>
+	{
+		axios.get('/sanctum/csrf-cookie').then(response =>
+		{
+			console.log("crsf-cookie récupéré.");
+		})
+		.catch(error =>
+		{
+			console.error("Erreur lors de la récupération du csrf-cookie.")
+		});
+	});
 </script>
 
 <template>

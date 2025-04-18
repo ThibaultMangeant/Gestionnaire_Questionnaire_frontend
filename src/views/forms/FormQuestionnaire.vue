@@ -27,7 +27,7 @@
 	{
 		loading.value = true;
 
-		axios.post('/questionnaire',
+		axios.post('/api/questionnaire',
 		{
 			user_id: user_id.value,
 			name: name.value,

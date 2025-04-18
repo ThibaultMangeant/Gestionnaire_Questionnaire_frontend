@@ -43,7 +43,12 @@ const router = createRouter(
 		{
 			path: '/user/authentificate',
 			name: 'user-authentificate',
-			component: () => import('../views/forms/FormUser.vue')
+			component: () => import('../views/forms/FormLogin.vue')
+		},
+		{
+			path: '/user/register',
+			name: 'user-register',
+			component: () => import('../views/forms/FormRegister.vue')
 		}
 	],
 });
