@@ -6,7 +6,6 @@
 
 	const form = ref();
 
-	const user_id = ref(1);
 	const name = ref('');
 	const description = ref('');
 
@@ -29,7 +28,6 @@
 
 		axios.post('/api/questionnaire',
 		{
-			user_id: user_id.value,
 			name: name.value,
 			description: description.value
 		})

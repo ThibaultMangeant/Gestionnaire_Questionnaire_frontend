@@ -47,6 +47,7 @@
 		{
 			loading.value = false;
 			console.log('Utilisateur connecté avec succès.')
+			window.location.href = 'http://localhost:5174/questionnaire';
 		})
 		.catch(error =>
 		{
@@ -69,9 +70,6 @@
 </script>
 
 <template>
-	<RouterLink to="/questionnaire">
-		<v-btn icon="mdi-arrow-left"></v-btn>
-	</RouterLink>
 	<v-card>
 		<v-form ref="form">
 			<v-text-field
