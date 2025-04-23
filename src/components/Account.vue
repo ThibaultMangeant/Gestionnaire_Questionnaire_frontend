@@ -31,7 +31,7 @@ function logout()
 			<v-btn
 				icon
 				v-bind="props">
-				<v-avatar image="src/assets/1723015480__Carole_compressé.jpg" size="64"></v-avatar>
+				<v-avatar image="src/assets/1723015480__Carole_compressé.jpg"></v-avatar>
 			</v-btn>
 			</template>
 				<v-card>
@@ -75,17 +75,13 @@ function logout()
 <style scoped>
 #account
 {
-	position: fixed;
 	display: flex;
 	flex-direction: row;
-	justify-content: space-between;
-	right: 30px;
-	top: 10px;
 }
 
 h1
 {
-	padding-right: 15px;
+	margin-right: 15px;
 }
 
 span
