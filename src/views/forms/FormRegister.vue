@@ -52,12 +52,12 @@
 			email: email.value,
 			password: password.value,
 			password_confirmation: confirmPassword.value
-
 		})
 		.then(response =>
 		{
 			loading.value = false;
-			console.log('Utilisateur enregistré avec succès.', response.data)
+			console.log('Utilisateur enregistré avec succès.', response.data);
+			window.location.href = 'http://localhost:5174/questionnaire';
 		})
 		.catch(error =>
 		{
@@ -112,6 +112,8 @@
 				clearable
 				required>
 			</v-text-field>
+			<v-divider></v-divider>
+			<p>Vous avez déjà un compte ? <RouterLink to="/login">Se connecter</RouterLink></p>
 			<v-btn @click.prevent="validate"
 				append-icon="mdi-login-variant"
 				type="submit"
@@ -123,3 +125,10 @@
 	</v-card>
 	<p class="text-red">Les champs marqués d'un astérix (*) sont obligatoires.</p>
 </template>
+
+<style scoped>
+p
+{
+	text-align: center;
+}
+</style>

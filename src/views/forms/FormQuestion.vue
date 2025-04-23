@@ -53,6 +53,7 @@
 		.then(response => {
 			loading.value = false;
 			console.log(response);
+			window.location.href = "http://localhost:5174/questionnaire/" + idQuestionnaire;
 		})
 		.catch(error => {
 			loading.value = false;

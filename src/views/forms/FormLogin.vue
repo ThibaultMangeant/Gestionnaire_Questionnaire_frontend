@@ -96,6 +96,8 @@
 				v-model="remember"
 				label="Se souvenir de moi">
 			</v-checkbox>
+			<v-divider></v-divider>
+			<p>Vous n'avez pas de compte ? <RouterLink to="/register">S'inscrire</RouterLink></p>
 			<v-btn @click.prevent="validate"
 				append-icon="mdi-login"
 				type="submit"
@@ -107,3 +109,10 @@
 	</v-card>
 	<p class="text-red">Les champs marqués d'un astérix (*) sont obligatoires.</p>
 </template>
+
+<style scoped>
+p
+{
+	text-align: center;
+}
+</style>
