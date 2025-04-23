@@ -65,7 +65,7 @@
 	<RouterLink :to="'/questionnaire/' + $route.params.idQuestionnaire">
 		<v-btn icon="mdi-arrow-left"></v-btn>
 	</RouterLink>
-	<v-card>
+	<v-card title="Création d'une question">
 		<v-form ref="form">
 			<v-select
 				v-model="type"

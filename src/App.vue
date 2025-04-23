@@ -1,23 +1,9 @@
 <script setup>
-	import Welcome from './components/Welcome.vue'
+	import Account from './components/Account.vue'
 	import axios from './axios.js';
 	import { onMounted, ref } from 'vue';
 
 	const user = ref('');
-
-	function logout()
-	{
-		axios.post('/logout')
-		.then(response =>
-		{
-			window.location.href = 'http://localhost:5174/user/authentificate'
-			console.log('Déconnexion réussi.');
-		})
-		.catch(error =>
-		{
-			console.error('Erreur lors de la déconnexion.', error);
-		});
-	}
 
 	onMounted(() =>
 	{
@@ -26,9 +12,9 @@
 		{
 			user.value = response.data;
 			if (user.value === '' &&
-			    window.location.href !== 'http://localhost:5174/user/authentificate' &&
-			    window.location.href !== 'http://localhost:5174/user/register')
-				window.location.href = 'http://localhost:5174/user/authentificate'
+			    window.location.href !== 'http://localhost:5174/login' &&
+			    window.location.href !== 'http://localhost:5174/register')
+				window.location.href = 'http://localhost:5174/login'
 			console.log('Utilisateur récupérée', response.data);
 		})
 		.catch(error =>
@@ -39,21 +25,8 @@
 </script>
 
 <template>
-<header>
-	<RouterLink to="/user/authentificate">
-		<v-btn
-			icon="mdi-account">
-		</v-btn>
-	</RouterLink>
-	<RouterLink to="/user/register">
-		<v-btn
-			icon="mdi-account-plus">
-		</v-btn>
-	</RouterLink>
-	<v-btn @click="logout"
-		icon="mdi-logout">
-	</v-btn>
-	<Welcome :user=user.name />
+<header v-if="user !== ''">
+	<Account :user=user.name />
 </header>
 
 <main>

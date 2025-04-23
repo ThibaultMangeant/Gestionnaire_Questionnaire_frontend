@@ -71,7 +71,7 @@
 	<RouterLink to="/questionnaire">
 		<v-btn icon="mdi-arrow-left"></v-btn>
 	</RouterLink>
-	<v-card>
+	<v-card title="Inscription">
 		<v-form ref="form">
 			<v-text-field
 				v-model="name"

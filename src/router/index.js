@@ -41,12 +41,12 @@ const router = createRouter(
 
 
 		{
-			path: '/user/authentificate',
-			name: 'user-authentificate',
+			path: '/login',
+			name: 'user-login',
 			component: () => import('../views/forms/FormLogin.vue')
 		},
 		{
-			path: '/user/register',
+			path: '/register',
 			name: 'user-register',
 			component: () => import('../views/forms/FormRegister.vue')
 		}

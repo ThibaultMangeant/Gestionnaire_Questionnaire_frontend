@@ -46,7 +46,7 @@
 	<RouterLink to="/questionnaire">
 		<v-btn icon="mdi-arrow-left"></v-btn>
 	</RouterLink>
-	<v-card>
+	<v-card title="Création d'un questionnaire">
 		<v-form ref="form">
 			<v-text-field
 				v-model="name"

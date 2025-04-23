@@ -70,7 +70,7 @@
 </script>
 
 <template>
-	<v-card>
+	<v-card title="Bienvenue !" subtitle="Connectez-vous !">
 		<v-form ref="form">
 			<v-text-field
 				v-model="email"
