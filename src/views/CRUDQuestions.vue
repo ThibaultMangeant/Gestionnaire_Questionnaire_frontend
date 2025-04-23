@@ -10,6 +10,14 @@
 
 	const loading = ref(false);
 
+	const headers =
+	[
+		{ title: 'Nom', key: 'name'},
+		{ title: 'Énoncé', key: 'content' },
+		{ title: 'Ordre', key: 'order'},
+		{ title: 'Actions', key: 'actions', sortable: false}
+	]
+
 	function fetchQuestions(idQuestionnaire)
 	{
 		loading.value = true;
@@ -49,7 +57,7 @@
 	})
 </script>
 
-<template>
+<!-- <template>
 	<RouterLink to="/questionnaire">
 		<v-btn icon="mdi-arrow-left"></v-btn>
 	</RouterLink>
@@ -90,4 +98,40 @@
 			</v-btn>
 		</RouterLink>
 	</v-card>
+</template> -->
+
+<template>
+	<h1>Questions</h1>
+	<div class="text-right my-4">
+		<RouterLink to="/questionnaire">
+			<v-btn icon="mdi-arrow-left"></v-btn>
+		</RouterLink>
+		<RouterLink :to="'/questionnaire/add/' + $route.params.idQuestionnaire">
+			<v-btn prepend-icon="mdi-plus" size="small" variant="outlined">
+				Ajouter une question
+			</v-btn>
+		</RouterLink>
+	</div>
+	<div class="mt-4 position-relative">
+		<v-data-table :items="questions" :loading="loading" :headers="headers">
+			<template v-slot:item.name="{ value }">
+				<v-chip
+					:text="value"
+					border="thin opacity-25"
+					prepend-icon="mdi-file-question"
+					label>
+				</v-chip>
+			</template>
+			<template v-slot:item.actions="{ item }">
+				<div class="d-flex ga-2 justify-end">
+					<v-icon style="color:#499ca5" icon="mdi-pencil" @click="updateQuestion(item)"></v-icon>
+
+					<v-icon color="red" icon="mdi-delete" @click="deleteQuestion(item)"></v-icon>
+				</div>
+			</template>
+			<template v-slot:no-data>
+				<p>Aucune question trouvée</p>
+			</template>
+		</v-data-table>
+	</div>
 </template>

@@ -8,6 +8,13 @@
 
 	const loading = ref(false);
 
+	const headers =
+	[
+		{ title: 'Nom', key: 'name'},
+		{ title: 'Description', key: 'description' },
+		{ title: 'Actions', key: 'actions', sortable: false}
+	]
+
 	function fetchQuestionnaires()
 	{
 		loading.value = true;
@@ -48,44 +55,36 @@
 </script>
 
 <template>
-	<v-card>
-		<v-toolbar>
-			<v-toolbar-title>Questionnaires</v-toolbar-title>
-			<v-btn append-icon="mdi-refresh" :loading="loading" size="small" @click="fetchQuestionnaires">Rafraîchir</v-btn>
-		</v-toolbar>
-		<v-list lines="two" variant="tonal">
-			<v-list-item
-				v-for="questionnaire in questionnaires" :key="questionnaire.id"
-				v-if="questionnaires.length > 0">
-				<RouterLink :to="'/questionnaire/' + questionnaire.id">
-					<v-list-item-title>{{ questionnaire.name }}</v-list-item-title>
-					<v-list-item-subtitle>{{ questionnaire.description }}</v-list-item-subtitle>
-				</RouterLink>
-				<template v-slot:append>
-					<RouterLink :to="'/questionnaire/update/' + questionnaire.id">
-						<v-btn @click="updateQuestionnaire(questionnaire)"
-							icon="mdi-pencil"
-							variant="text"
-						></v-btn>
-					</RouterLink>
-					<v-btn @click="deleteQuestionnaire(questionnaire)"
-						color="red"
-						icon="mdi-close-circle"
-						variant="text"
-					></v-btn>
-				</template>
-				<v-divider></v-divider>
-			</v-list-item>
-			<v-list-item v-else>
-				<v-list-item-title>Aucun questionnaire trouvé</v-list-item-title>
-			</v-list-item>
-		</v-list>
-
+	<h1>Questionnaires</h1>
+	<div class="text-right my-4">
 		<RouterLink to="/questionnaire/add">
-			<v-btn prepend-icon="mdi-plus" size="small">
+			<v-btn prepend-icon="mdi-plus" size="small" variant="outlined">
 				Ajouter un questionnaire
 			</v-btn>
 		</RouterLink>
-		
-	</v-card>
+	</div>
+	<div class="mt-4 position-relative">
+		<v-data-table :items="questionnaires" :loading="loading" :headers="headers">
+			<template v-slot:item.name="{ item }">
+				<RouterLink :to="'/questionnaire/' + item.id">
+					<v-chip
+						:text="item.name"
+						border="thin opacity-25"
+						prepend-icon="mdi-file-document"
+						label>
+					</v-chip>
+				</RouterLink>
+			</template>
+			<template v-slot:item.actions="{ item }">
+				<div class="d-flex ga-2 justify-end">
+					<v-icon style="color:#499ca5" icon="mdi-pencil" @click="updateQuestionnaire(item)"></v-icon>
+
+					<v-icon color="red" icon="mdi-delete" @click="deleteQuestionnaire(item)"></v-icon>
+				</div>
+			</template>
+			<template v-slot:no-data>
+				<p>Aucun questionnaire trouvé</p>
+			</template>
+		</v-data-table>
+	</div>
 </template>
