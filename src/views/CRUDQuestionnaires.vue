@@ -12,7 +12,7 @@
 	[
 		{ title: 'Nom', key: 'name'},
 		{ title: 'Description', key: 'description' },
-		{ title: 'Actions', key: 'actions', sortable: false}
+		{ title: 'Actions', key: 'actions', align: 'center', sortable: false}
 	]
 
 	function fetchQuestionnaires()
@@ -77,7 +77,9 @@
 			</template>
 			<template v-slot:item.actions="{ item }">
 				<div class="d-flex ga-2 justify-end">
-					<v-icon style="color:#499ca5" icon="mdi-pencil" @click="updateQuestionnaire(item)"></v-icon>
+					<RouterLink :to="'/questionnaire/update/' + item.id">
+						<v-icon icon="mdi-pencil"></v-icon>
+					</RouterLink>
 
 					<v-icon color="red" icon="mdi-delete" @click="deleteQuestionnaire(item)"></v-icon>
 				</div>

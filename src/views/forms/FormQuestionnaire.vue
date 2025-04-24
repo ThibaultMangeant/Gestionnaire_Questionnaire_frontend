@@ -1,6 +1,11 @@
 <script setup>
 	import axios from '../../axios.js';
-	import { ref } from 'vue';
+	import { ref, onMounted } from 'vue';
+	import { useRoute } from 'vue-router';
+
+	const route = useRoute();
+
+	const isUpdate = route.fullPath.includes('update');
 
 	const loading = ref(false);
 
@@ -19,7 +24,17 @@
 		const { valid } = await form.value.validate();
 
 		if (valid)
-			addQuestionnaire();
+		{
+			if (!isUpdate)
+			{
+				addQuestionnaire();
+			}
+			else
+			{
+				updateQuestionnaire();
+			}
+		}
+		
 	}
 
 	function addQuestionnaire()
@@ -38,16 +53,61 @@
 		})
 		.catch(error => {
 			loading.value = false;
-			console.error('Erreur lors de la création du questionnaire :', error);
-		});;
+			console.error('Erreur lors de la création du questionnaire.', error);
+		});
 	}
+	
+	function updateQuestionnaire()
+	{
+		loading.value = true;
+
+		axios.put(`/api/questionnaire/${route.params.idQuestionnaire}`,
+		{
+			name: name.value,
+			description: description.value
+		})
+		.then(response => {
+			loading.value = false;
+			console.log(response);
+			// window.location.href = 'http://localhost:5174/questionnaire';
+		})
+		.catch(error =>
+		{
+			loading.value = false;
+			console.error('Erreur lors de la mise à jour du questionnaire.', error);
+		});
+	}
+
+	onMounted(() =>
+	{
+		if (isUpdate)
+		{
+			loading.value = true;
+
+			axios.get(`/api/questionnaire/${route.params.idQuestionnaire}`)
+			.then(response =>
+			{
+				loading.value = false;
+				console.log(response);
+				name.value = response.data.name;
+				description.value = response.data.description;
+			})
+			.catch(error =>
+			{
+				loading.value = false;
+				console.error('Erreur lors de la récupération du questionnaire.', error);
+			});
+		}
+	});
 </script>
 
 <template>
 	<RouterLink to="/questionnaire">
 		<v-btn icon="mdi-arrow-left"></v-btn>
 	</RouterLink>
-	<v-card title="Création d'un questionnaire">
+	<v-card>
+		<v-card-title v-if="!isUpdate">Création d'un questionnaire</v-card-title>
+		<v-card-title v-else>Mise à jour d'un questionnaire</v-card-title>
 		<v-form ref="form">
 			<v-text-field
 				v-model="name"
@@ -63,12 +123,19 @@
 				label="Description du questionnaire"
 				clearable>
 			</v-textarea>
-			<v-btn @click.prevent="validate"
+			<v-btn v-if="!isUpdate" @click.prevent="validate"
 				append-icon="mdi-check-circle"
 				type="submit"
 				:loading="loading"
 				block>
 				Créer le questionnaire
+			</v-btn>
+			<v-btn v-else @click.prevent="validate"
+				append-icon="mdi-check-circle"
+				type="submit"
+				:loading="loading"
+				block>
+				Mettre à jour le questionnaire
 			</v-btn>
 		</v-form>
 	</v-card>
