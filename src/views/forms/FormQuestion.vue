@@ -1,10 +1,15 @@
 <script setup>
 	import axios from '../../axios.js';
-	import { ref } from 'vue';
+	import { ref, onMounted } from 'vue';
+	import { useRoute } from 'vue-router';
+
+	const route = useRoute();
 
 	const loading = ref(false);
 
 	const form = ref();
+
+	const isUpdate = route.fullPath.includes('update');
 
 	const type = ref(null);
 	const name = ref('');
@@ -30,21 +35,28 @@
 		value => { return value >= 0 ? true : "L'ordre ne peut être négatif"}
 	];
 
-	async function validate($idQuestionnaire)
+	async function validate()
 	{
 		const { valid } = await form.value.validate();
 
 		if (valid)
 		{
-			addQuestion($idQuestionnaire);
+			if (!isUpdate)
+			{
+				addQuestion();
+			}
+			else
+			{
+				updateQuestion();
+			}
 		}
 	}
 
-	function addQuestion(idQuestionnaire)
+	function addQuestion()
 	{
 		loading.value = true;
 
-		axios.post('/api/question/' + idQuestionnaire, {
+		axios.post('/api/question/' + route.params.idQuestionnaire, {
 			// type: type.value,
 			name: name.value,
 			content: content.value,
@@ -53,20 +65,70 @@
 		.then(response => {
 			loading.value = false;
 			console.log(response);
-			window.location.href = "http://localhost:5174/questionnaire/" + idQuestionnaire;
+			window.location.href = "http://localhost:5174/questionnaire/" + route.params.idQuestionnaire;
 		})
 		.catch(error => {
 			loading.value = false;
 			console.error('Erreur lors de la création de la question :', error);
+			window.location.href = "http://localhost:5174/questionnaire/" + route.params.idQuestionnaire;
 		});
 	}
+
+	function updateQuestion()
+	{
+		loading.value = true;
+
+		axios.put(`/api/question/${route.params.idQuestionnaire}/${route.params.id}/`,
+		{
+			name: name.value,
+			content: content.value,
+			order: order.value
+		})
+		.then(response => {
+			loading.value = false;
+			console.log(response);
+			window.location.href = 'http://localhost:5174/questionnaire/' + route.params.idQuestionnaire;
+		})
+		.catch(error =>
+		{
+			loading.value = false;
+			console.error('Erreur lors de la mise à jour du questionnaire.', error);
+			window.location.href = 'http://localhost:5174/questionnaire/' + route.params.idQuestionnaire;
+		});
+	}
+
+	onMounted(() =>
+	{
+		if (isUpdate)
+		{
+			loading.value = true;
+
+			axios.get(`/api/question/${route.params.idQuestionnaire}/${route.params.id}`)
+			.then(response =>
+			{
+				loading.value = false;
+				console.log(response);
+				name.value = response.data.name;
+				content.value = response.data.content;
+				order.value = response.data.order;
+			})
+			.catch(error =>
+			{
+				loading.value = false;
+				console.error('Erreur lors de la récupération du questionnaire.', error);
+				window.location.href = 'http://localhost:5174/questionnaire/' + route.params.idQuestionnaire;
+			});
+		}
+	});
 </script>
 
 <template>
 	<RouterLink :to="'/questionnaire/' + $route.params.idQuestionnaire">
 		<v-btn icon="mdi-arrow-left"></v-btn>
 	</RouterLink>
-	<v-card title="Création d'une question">
+	<v-card>
+		<v-card-title v-if="!isUpdate">Création d'une question</v-card-title>
+		<v-card-title v-else>Mise à jour d'une question</v-card-title>
 		<v-form ref="form">
 			<v-select
 				v-model="type"
@@ -100,12 +162,19 @@
 				step="1"
 				hint="Le numéro indique la position dans le questionnaire (ex: 0 = Pas d'ordre, 1 = Première position)">
 			</v-text-field>
-			<v-btn @click.prevent="validate($route.params.idQuestionnaire)"
+			<v-btn v-if="!isUpdate" @click.prevent="validate()"
 				append-icon="mdi-check-circle"
 				type="submit"
 				:loading="loading"
 				block>
 				Créer la question
+			</v-btn>
+			<v-btn v-else @click.prevent="validate()"
+				append-icon="mdi-check-circle"
+				type="submit"
+				:loading="loading"
+				block>
+				Mettre à jour la question
 			</v-btn>
 		</v-form>
 	</v-card>

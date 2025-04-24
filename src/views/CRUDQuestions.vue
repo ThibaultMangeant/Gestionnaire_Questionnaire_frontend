@@ -41,7 +41,7 @@
 
 	function deleteQuestion(question)
 	{
-		axios.delete(`/api/question/${question.id}`)
+		axios.delete(`/api/question/${route.params.idQuestionnaire}/${question.id}`)
 		.then(response => {
 			console.log('Question supprimée avec succès', response.data)
 			questions.value = questions.value.filter(q => q.id !== question.id)
@@ -81,7 +81,9 @@
 			</template>
 			<template v-slot:item.actions="{ item }">
 				<div class="d-flex ga-2 justify-end">
-					<v-icon style="color:#499ca5" icon="mdi-pencil" @click="updateQuestion(item)"></v-icon>
+					<RouterLink :to="'/questionnaire/' + $route.params.idQuestionnaire + '/update/' + item.id">
+						<v-icon icon="mdi-pencil"></v-icon>
+					</RouterLink>
 
 					<v-icon color="red" icon="mdi-delete" @click="deleteQuestion(item)"></v-icon>
 				</div>

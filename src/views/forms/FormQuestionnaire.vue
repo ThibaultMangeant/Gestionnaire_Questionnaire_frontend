@@ -34,7 +34,6 @@
 				updateQuestionnaire();
 			}
 		}
-		
 	}
 
 	function addQuestionnaire()
@@ -54,6 +53,7 @@
 		.catch(error => {
 			loading.value = false;
 			console.error('Erreur lors de la création du questionnaire.', error);
+			window.location.href = 'http://localhost:5174/questionnaire';
 		});
 	}
 	
@@ -69,12 +69,13 @@
 		.then(response => {
 			loading.value = false;
 			console.log(response);
-			// window.location.href = 'http://localhost:5174/questionnaire';
+			window.location.href = 'http://localhost:5174/questionnaire';
 		})
 		.catch(error =>
 		{
 			loading.value = false;
 			console.error('Erreur lors de la mise à jour du questionnaire.', error);
+			window.location.href = 'http://localhost:5174/questionnaire';
 		});
 	}
 
@@ -96,6 +97,7 @@
 			{
 				loading.value = false;
 				console.error('Erreur lors de la récupération du questionnaire.', error);
+				window.location.href = 'http://localhost:5174/questionnaire';
 			});
 		}
 	});

@@ -38,6 +38,11 @@ const router = createRouter(
 			name: 'add-question',
 			component: () => import('../views/forms/FormQuestion.vue')
 		},
+		{
+			path: '/questionnaire/:idQuestionnaire/update/:id',
+			name: 'update-question',
+			component: () => import('../views/forms/FormQuestion.vue')
+		},
 
 
 		{
