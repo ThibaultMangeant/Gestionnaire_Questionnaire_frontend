@@ -58,11 +58,11 @@
 </script>
 
 <template>
+	<RouterLink to="/questionnaire">
+		<v-btn icon="mdi-arrow-left"></v-btn>
+	</RouterLink>
 	<h1>Questions</h1>
 	<div class="text-right my-4">
-		<RouterLink to="/questionnaire">
-			<v-btn icon="mdi-arrow-left"></v-btn>
-		</RouterLink>
 		<RouterLink :to="'/questionnaire/add/' + $route.params.idQuestionnaire">
 			<v-btn prepend-icon="mdi-plus" size="small" variant="outlined">
 				Ajouter une question
