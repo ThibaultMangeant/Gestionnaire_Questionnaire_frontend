@@ -1,6 +1,6 @@
 <script setup>
 	import axios from '../../axios.js';
-	import { ref } from 'vue';
+	import { ref, onMounted } from 'vue';
 
 	const loading = ref(false);
 
@@ -65,6 +65,18 @@
 			console.error("Erreur lors de l'enregistrement de l'utilisateur.", error)
 		});
 	}
+
+	onMounted(() =>
+	{
+		axios.get('/sanctum/csrf-cookie').then(response =>
+		{
+			console.log("crsf-cookie récupéré.");
+		})
+		.catch(error =>
+		{
+			console.error("Erreur lors de la récupération du csrf-cookie.")
+		});
+	});
 </script>
 
 <template>
