@@ -82,6 +82,10 @@
 					</RouterLink>
 
 					<v-icon color="red" icon="mdi-delete" @click="deleteQuestionnaire(item)"></v-icon>
+
+					<RouterLink :to="'/questionnaire/link/' + item.id">
+						<v-icon color="black" icon="mdi-share-variant"></v-icon>
+					</RouterLink>
 				</div>
 			</template>
 			<template v-slot:no-data>

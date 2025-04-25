@@ -26,6 +26,12 @@ const router = createRouter(
 			component: () => import('../views/forms/FormQuestionnaire.vue')
 		},
 
+		{
+			path: '/questionnaire/link/:idQuestionnaire',
+			name: 'questionnaire_link',
+			component: () => import('../views/CRUDLink.vue')
+		},
+
 
 		{
 			path: '/questionnaire/:idQuestionnaire',
