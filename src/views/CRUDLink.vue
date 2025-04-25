@@ -17,6 +17,7 @@
 		{ title: 'Mail associé', key: 'usermail' },
 		{ title: 'État', key: 'state'},
 		{ title: 'Date de création', key: 'created_at'},
+		{ title: 'Date de mise à jour', key: 'updated_at'},
 		{ title: 'Actions', key: 'actions', align: 'center', sortable: false}
 	];
 
@@ -58,12 +59,16 @@
 
 	function deleteLink(link)
 	{
+		loading.value = true;
+
 		axios.delete(`/api/link/${route.params.idQuestionnaire}/${link.id}`)
 		.then(response => {
+			loading.value = false;
 			console.log('Lien supprimée avec succès.', response.data)
 			links.value = links.value.filter(l => l.id !== link.id)
 		})
 		.catch(error => {
+			loading.value = false;
 			console.error('Erreur lors de la suppression.', error)
 		});
 	}
@@ -110,7 +115,7 @@
 			</template>
 			<template v-slot:item.actions="{ item }">
 				<div class="d-flex ga-2 justify-end">
-					<v-tooltip location="top" text="Supprimer le lien">
+					<v-tooltip location="top" text="Supprimer">
 						<template v-slot:activator="{ props }">
 							<v-icon v-bind="props" color="red" icon="mdi-delete" @click="deleteLink(item)"></v-icon>
 						</template>

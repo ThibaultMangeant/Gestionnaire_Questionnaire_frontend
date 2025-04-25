@@ -35,12 +35,16 @@
 
 	function deleteQuestion(question)
 	{
+		loading.value = true;
+
 		axios.delete(`/api/question/${route.params.idQuestionnaire}/${question.id}`)
 		.then(response => {
+			loading.value = false;
 			console.log('Question supprimée avec succès.', response.data)
 			questions.value = questions.value.filter(q => q.id !== question.id)
 		})
 		.catch(error => {
+			loading.value = false;
 			console.error('Erreur lors de la suppression.', error)
 		});
 	}
@@ -76,10 +80,18 @@
 			<template v-slot:item.actions="{ item }">
 				<div class="d-flex ga-2 justify-end">
 					<RouterLink :to="'/questionnaire/' + $route.params.idQuestionnaire + '/update/' + item.id">
-						<v-icon icon="mdi-pencil"></v-icon>
+						<v-tooltip location="top" text="Modifier">
+							<template v-slot:activator="{ props }">
+								<v-icon v-bind="props" icon="mdi-pencil"></v-icon>
+							</template>
+						</v-tooltip>
 					</RouterLink>
 
-					<v-icon color="red" icon="mdi-delete" @click="deleteQuestion(item)"></v-icon>
+					<v-tooltip location="top" text="Supprimer">
+						<template v-slot:activator="{ props }">
+							<v-icon v-bind="props" color="red" icon="mdi-delete" @click="deleteQuestion(item)"></v-icon>
+						</template>
+					</v-tooltip>
 				</div>
 			</template>
 			<template v-slot:no-data>

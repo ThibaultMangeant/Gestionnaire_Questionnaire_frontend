@@ -30,20 +30,19 @@
 			console.error('Erreur lors de la récupération des questionnaires :', error);
 		});
 	}
-	
-	function updateQuestionnaire(questionnaire)
-	{
-
-	}
 
 	function deleteQuestionnaire(questionnaire)
 	{
+		loading.value = true;
+
 		axios.delete(`/api/questionnaire/${questionnaire.id}`)
 		.then(response => {
+			loading.value = false;
 			console.log('Questionnaire supprimé avec succès', response.data)
 			questionnaires.value = questionnaires.value.filter(q => q.id !== questionnaire.id)
 		})
 		.catch(error => {
+			loading.value = false;
 			console.error('Erreur lors de la suppression', error)
 		});
 	}
@@ -78,13 +77,25 @@
 			<template v-slot:item.actions="{ item }">
 				<div class="d-flex ga-2 justify-end">
 					<RouterLink :to="'/questionnaire/update/' + item.id">
-						<v-icon icon="mdi-pencil"></v-icon>
+						<v-tooltip location="top" text="Modifier">
+							<template v-slot:activator="{ props }">
+								<v-icon v-bind="props" icon="mdi-pencil"></v-icon>
+							</template>
+						</v-tooltip>
 					</RouterLink>
 
-					<v-icon color="red" icon="mdi-delete" @click="deleteQuestionnaire(item)"></v-icon>
+					<v-tooltip location="top" text="Supprimer">
+						<template v-slot:activator="{ props }">
+							<v-icon v-bind="props" color="red" icon="mdi-delete" @click="deleteQuestionnaire(item)"></v-icon>
+						</template>
+					</v-tooltip>
 
 					<RouterLink :to="'/questionnaire/link/' + item.id">
-						<v-icon color="black" icon="mdi-share-variant"></v-icon>
+						<v-tooltip location="top" text="Partager">
+							<template v-slot:activator="{ props }">
+								<v-icon v-bind="props" color="black" icon="mdi-share-variant"></v-icon>
+							</template>
+						</v-tooltip>
 					</RouterLink>
 				</div>
 			</template>
