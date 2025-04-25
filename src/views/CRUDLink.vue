@@ -7,6 +7,8 @@
 
 	const links = ref([]);
 
+	const copiedToClipboard = ref('Copier le lien dans le presse papier');
+
 	const loading = ref(false);
 
 	const headers =
@@ -71,6 +73,9 @@
 		const text = 'http://localhost:5174/view/' + link.token;
 
 		navigator.clipboard.writeText(text);
+		copiedToClipboard.value = 'Copié !';
+
+		setTimeout(function() {copiedToClipboard.value = 'Copier le lien dans le presse papier'}, 2000);
 	}
 
 	onMounted(() =>
@@ -111,7 +116,7 @@
 						</template>
 					</v-tooltip>
 
-					<v-tooltip location="top" text="Copier le lien dans le presse papier">
+					<v-tooltip location="top" :text="copiedToClipboard">
 						<template v-slot:activator="{ props }">
 							<v-icon v-bind="props" icon="mdi-clipboard-multiple" @click="copyToClipboard(item)"></v-icon>
 						</template>
