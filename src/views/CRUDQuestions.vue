@@ -1,8 +1,7 @@
 <script setup>
 	import axios from '../axios.js';
-	import { onMounted } from 'vue'
+	import { ref, onMounted } from 'vue'
 	import { useRoute } from 'vue-router'
-	import { ref } from 'vue';
 
 	const route = useRoute();
 
@@ -18,11 +17,11 @@
 		{ title: 'Actions', key: 'actions', align: 'center', sortable: false}
 	]
 
-	function fetchQuestions(idQuestionnaire)
+	function fetchQuestions()
 	{
 		loading.value = true;
 
-		axios.get('/api/question/' + idQuestionnaire)
+		axios.get('/api/question/' + route.params.idQuestionnaire)
 		.then(response => {
 			loading.value = false;
 			questions.value = response.data;
@@ -30,30 +29,25 @@
 		})
 		.catch(error => {
 			loading.value = false;
-			console.error('Erreur lors de la récupération des questions :', error);
+			console.error('Erreur lors de la récupération des questions.', error);
 		});
-	}
-
-	function updateQuestion(question)
-	{
-
 	}
 
 	function deleteQuestion(question)
 	{
 		axios.delete(`/api/question/${route.params.idQuestionnaire}/${question.id}`)
 		.then(response => {
-			console.log('Question supprimée avec succès', response.data)
+			console.log('Question supprimée avec succès.', response.data)
 			questions.value = questions.value.filter(q => q.id !== question.id)
 		})
 		.catch(error => {
-			console.error('Erreur lors de la suppression', error)
+			console.error('Erreur lors de la suppression.', error)
 		});
 	}
 
 	onMounted(() =>
 	{
-		fetchQuestions(route.params.idQuestionnaire)
+		fetchQuestions()
 	});
 </script>
 
