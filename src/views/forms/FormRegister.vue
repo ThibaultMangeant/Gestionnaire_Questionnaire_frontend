@@ -80,9 +80,6 @@
 </script>
 
 <template>
-	<RouterLink to="/questionnaire">
-		<v-btn icon="mdi-arrow-left"></v-btn>
-	</RouterLink>
 	<v-card title="Inscription">
 		<v-form ref="form">
 			<v-text-field
@@ -137,10 +134,3 @@
 	</v-card>
 	<p class="text-red">Les champs marqués d'un astérix (*) sont obligatoires.</p>
 </template>
-
-<style scoped>
-p
-{
-	text-align: center;
-}
-</style>

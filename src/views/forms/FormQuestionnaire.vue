@@ -104,9 +104,7 @@
 </script>
 
 <template>
-	<RouterLink to="/questionnaire">
-		<v-btn icon="mdi-arrow-left"></v-btn>
-	</RouterLink>
+	<v-btn icon="mdi-arrow-left" @click="$router.back()"></v-btn>
 	<v-card>
 		<v-card-title v-if="!isUpdate">Création d'un questionnaire</v-card-title>
 		<v-card-title v-else>Mise à jour d'un questionnaire</v-card-title>

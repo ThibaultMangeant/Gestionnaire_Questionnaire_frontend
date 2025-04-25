@@ -56,9 +56,7 @@
 </script>
 
 <template>
-	<RouterLink to="/questionnaire">
-		<v-btn icon="mdi-arrow-left"></v-btn>
-	</RouterLink>
+	<v-btn icon="mdi-arrow-left" @click="$router.back()"></v-btn>
 	<h1>Questions</h1>
 	<div class="text-right my-4">
 		<RouterLink :to="'/questionnaire/add/' + $route.params.idQuestionnaire">

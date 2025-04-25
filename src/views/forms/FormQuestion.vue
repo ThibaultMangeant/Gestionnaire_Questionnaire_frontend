@@ -123,9 +123,7 @@
 </script>
 
 <template>
-	<RouterLink :to="'/questionnaire/' + $route.params.idQuestionnaire">
-		<v-btn icon="mdi-arrow-left"></v-btn>
-	</RouterLink>
+	<v-btn icon="mdi-arrow-left" @click="$router.back()"></v-btn>
 	<v-card>
 		<v-card-title v-if="!isUpdate">Création d'une question</v-card-title>
 		<v-card-title v-else>Mise à jour d'une question</v-card-title>

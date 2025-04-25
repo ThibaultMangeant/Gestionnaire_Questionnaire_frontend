@@ -109,10 +109,3 @@
 	</v-card>
 	<p class="text-red">Les champs marqués d'un astérix (*) sont obligatoires.</p>
 </template>
-
-<style scoped>
-p
-{
-	text-align: center;
-}
-</style>
