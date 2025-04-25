@@ -7,6 +7,15 @@
 
 	const links = ref([]);
 
+	const form = ref();
+	const usermail = ref('');
+
+	const emailRules =
+	[
+		value => { return value ? true : 'Vous devez saisir une adresse mail.'},
+		value => { return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(value) ? true : "L'adresse email doit être valide"}
+	];
+
 	const copiedToClipboard = ref('Copier le lien dans le presse papier');
 
 	const loading = ref(false);
@@ -20,6 +29,16 @@
 		{ title: 'Date de mise à jour', key: 'updated_at'},
 		{ title: 'Actions', key: 'actions', align: 'center', sortable: false}
 	];
+
+	async function validate()
+	{
+		const { valid } = await form.value.validate();
+
+		if (valid)
+		{
+			addLink();
+		}
+	}
 
 	function fetchLinks()
 	{
@@ -43,8 +62,7 @@
 
 		axios.post('/api/link/add/' + route.params.idQuestionnaire,
 		{
-			usermail: 'soldat.inconnu@gmail.com'
-			
+			usermail: usermail.value
 		})
 		.then(response => {
 			loading.value = false;
@@ -95,13 +113,43 @@
 	</RouterLink>
 	<h1>Liens</h1>
 	<div class="text-right my-4">
-		<v-btn @click="addLink()"
-			:loading="loading"
-			prepend-icon="mdi-link-variant-plus"
-			size="small"
-			variant="outlined">
-			Générer un lien
-		</v-btn>
+		<v-dialog max-width="500">
+			<template v-slot:activator="{ props: activatorProps }">
+				<v-btn
+					v-bind="activatorProps"
+					:loading="loading"
+					prepend-icon="mdi-link-variant-plus"
+					size="small"
+					variant="outlined">
+					Générer un lien
+				</v-btn>
+			</template>
+
+			<template v-slot:default="{ isActive }">
+				<v-card>
+					<v-card-title>Saisissez l'adresse email du destinataire</v-card-title>
+					<v-form ref="form">
+						<v-text-field
+							v-model="usermail"
+							:rules="emailRules"
+							variant="outlined"
+							label="Adresse Email *"
+							placeholder="johndoe@gmail.com"
+							type="email"
+							clearable
+							required>
+						</v-text-field>
+						<v-btn @click.prevent="validate(); isActive.value = false"
+							append-icon="mdi-link-variant-plus"
+							type="submit"
+							:loading="loading"
+							block>
+							Générer le lien
+						</v-btn>
+					</v-form>
+				</v-card>
+			</template>
+		</v-dialog>
 	</div>
 	<div class="mt-4 position-relative">
 		<v-data-table :items="links" :loading="loading" :headers="headers">
