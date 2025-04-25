@@ -25,3 +25,8 @@ header
 	flex-direction: row;
 	top: 0px;
 }
+
+.mdi-arrow-left
+{
+	color: #499ca5;
+}
