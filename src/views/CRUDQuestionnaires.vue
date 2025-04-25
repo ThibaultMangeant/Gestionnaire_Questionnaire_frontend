@@ -55,6 +55,7 @@
 
 <template>
 	<h1>Questionnaires</h1>
+	<!-- Bouton Add -->
 	<div class="text-right my-4">
 		<RouterLink to="/questionnaire/add">
 			<v-btn prepend-icon="mdi-plus" size="small" variant="outlined">
@@ -62,6 +63,8 @@
 			</v-btn>
 		</RouterLink>
 	</div>
+
+	<!-- Table Data -->
 	<div class="mt-4 position-relative">
 		<v-data-table :items="questionnaires" :loading="loading" :headers="headers">
 			<template v-slot:item.name="{ item }">

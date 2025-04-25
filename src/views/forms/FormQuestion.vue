@@ -16,6 +16,16 @@
 	const content = ref('');
 	const order = ref(0);
 
+	const min  = ref(0);
+	const max  = ref(1);
+	const step = ref(1);
+
+	const prop1 = ref('');
+	const prop2 = ref('');
+	const prop3 = ref('');
+	const prop4 = ref('');
+	const prop5 = ref('');
+
 	const items = ['Question ouverte', 'Question à choix multiple', 'Vrai/Faux', 'Curseur'];
 
 	const typeRules =
@@ -33,6 +43,27 @@
 	[
 		value => { return value !== undefined && value !== null && value !== '' ? true : "Vous devez saisir un ordre."},
 		value => { return value >= 0 ? true : "L'ordre ne peut être négatif"}
+	];
+
+	const minRules =
+	[
+		value => { return value !== undefined && value !== null && value !== '' ? true : "Vous devez saisir un minimum."}
+	];
+
+	const maxRules =
+	[
+		value => { return value !== undefined && value !== null && value !== '' ? true : "Vous devez saisir un maximum."},
+		value => { return value > min.value ? true : "Le maximum doit être supérieur au minimum"}
+	];
+
+	const stepRules =
+	[
+		value => { return value !== undefined && value !== null && value !== '' ? true : "Vous devez saisir un pas."}
+	];
+
+	const propsRules =
+	[
+		value => { return value ? true : "Vous devez mettre cette proposition (au moins deux)"}
 	];
 
 	async function validate()
@@ -57,20 +88,28 @@
 		loading.value = true;
 
 		axios.post('/api/question/' + route.params.idQuestionnaire, {
-			// type: type.value,
+			type: type.value,
 			name: name.value,
 			content: content.value,
-			order: order.value
+			order: order.value,
+			min: min.value,
+			max: max.value,
+			step: step.value,
+			prop1: prop1.value,
+			prop2: prop2.value,
+			prop3: prop3.value,
+			prop4: prop4.value,
+			prop5: prop5.value
 		})
 		.then(response => {
 			loading.value = false;
 			console.log(response);
-			window.location.href = "http://localhost:5174/questionnaire/" + route.params.idQuestionnaire;
+			// window.location.href = "http://localhost:5174/questionnaire/" + route.params.idQuestionnaire;
 		})
 		.catch(error => {
 			loading.value = false;
 			console.error('Erreur lors de la création de la question :', error);
-			window.location.href = "http://localhost:5174/questionnaire/" + route.params.idQuestionnaire;
+			// window.location.href = "http://localhost:5174/questionnaire/" + route.params.idQuestionnaire;
 		});
 	}
 
@@ -135,6 +174,68 @@
 				label="Type de la question *"
 				:items="items">
 			</v-select>
+
+			<!-- Type Cursor -->
+			<v-text-field v-if="type == 'Curseur'"
+				v-model="min"
+				:rules="minRules"
+				variant="outlined"
+				label="Minimum du curseur"
+				type="number"
+				step="1">
+			</v-text-field>
+			<v-text-field v-if="type == 'Curseur'"
+				v-model="max"
+				:rules="maxRules"
+				variant="outlined"
+				label="Maximum du curseur"
+				type="number"
+				step="1">
+			</v-text-field>
+			<v-text-field v-if="type == 'Curseur'"
+				v-model="step"
+				:rules="stepRules"
+				variant="outlined"
+				label="Pas du curseur"
+				type="number"
+				step="1">
+			</v-text-field>
+
+			<!-- Type QCM -->
+			<v-text-field v-if="type == 'Question à choix multiple'"
+				v-model="prop1"
+				:rules="propsRules"
+				variant="outlined"
+				label="Proposition 1 *"
+				clearable>
+			</v-text-field>
+			<v-text-field v-if="type == 'Question à choix multiple'"
+				v-model="prop2"
+				:rules="propsRules"
+				variant="outlined"
+				label="Proposition 2 *"
+				clearable>
+			</v-text-field>
+			<v-text-field v-if="type == 'Question à choix multiple'"
+				v-model="prop3"
+				variant="outlined"
+				label="Proposition 3"
+				clearable>
+			</v-text-field>
+			<v-text-field v-if="type == 'Question à choix multiple'"
+				v-model="prop4"
+				variant="outlined"
+				label="Proposition 4"
+				clearable>
+			</v-text-field>
+			<v-text-field v-if="type == 'Question à choix multiple'"
+				v-model="prop5"
+				variant="outlined"
+				label="Proposition 5"
+				clearable>
+			</v-text-field>
+
+			<!-- Any type -->
 			<v-text-field
 				v-model="name"
 				variant="outlined"

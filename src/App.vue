@@ -29,7 +29,7 @@
 
 <template>
 <!-- Header horizontale en haut -->
-<v-toolbar density="compact" class="border position-fixed left-0" color="white" style="height:97px">
+<v-toolbar density="compact" class="border position-fixed d-flex left-0 top-0" color="white" style="height:97px">
 	<template v-slot:append>
 		<div class="d-flex flex-fill ga-6">
 			<v-btn

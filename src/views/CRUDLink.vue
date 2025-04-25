@@ -110,6 +110,8 @@
 <template>
 	<v-btn icon="mdi-arrow-left" @click="$router.back()"></v-btn>
 	<h1>Liens</h1>
+
+	<!-- Bouton Add -->
 	<div class="text-right my-4">
 		<v-dialog max-width="500">
 			<template v-slot:activator="{ props: activatorProps }">
@@ -149,6 +151,8 @@
 			</template>
 		</v-dialog>
 	</div>
+
+	<!-- Table Data -->
 	<div class="mt-4 position-relative">
 		<v-data-table :items="links" :loading="loading" :headers="headers">
 			<template v-slot:item.token="{ value }">
