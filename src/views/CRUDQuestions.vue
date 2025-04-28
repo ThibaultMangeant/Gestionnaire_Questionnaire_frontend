@@ -13,9 +13,10 @@
 	[
 		{ title: 'Nom', key: 'name'},
 		{ title: 'Énoncé', key: 'content' },
+		{ title: 'Type', key: 'question_type_shortcut'},
 		{ title: 'Ordre', key: 'order'},
 		{ title: 'Actions', key: 'actions', align: 'center', sortable: false}
-	]
+	];
 
 	function fetchQuestions()
 	{
@@ -69,7 +70,7 @@
 	</div>
 
 	<!-- Table Data -->
-	<div class="mt-4 position-relative">
+	<div class="mt-4">
 		<v-data-table :items="questions" :loading="loading" :headers="headers">
 			<template v-slot:item.name="{ value }">
 				<v-chip

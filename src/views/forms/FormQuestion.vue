@@ -104,12 +104,12 @@
 		.then(response => {
 			loading.value = false;
 			console.log(response);
-			// window.location.href = "http://localhost:5174/questionnaire/" + route.params.idQuestionnaire;
+			window.location.href = "http://localhost:5174/questionnaire/" + route.params.idQuestionnaire;
 		})
 		.catch(error => {
 			loading.value = false;
 			console.error('Erreur lors de la création de la question :', error);
-			// window.location.href = "http://localhost:5174/questionnaire/" + route.params.idQuestionnaire;
+			window.location.href = "http://localhost:5174/questionnaire/" + route.params.idQuestionnaire;
 		});
 	}
 
@@ -119,9 +119,18 @@
 
 		axios.put(`/api/question/${route.params.idQuestionnaire}/${route.params.id}/`,
 		{
+			type: type.value,
 			name: name.value,
 			content: content.value,
-			order: order.value
+			order: order.value,
+			prop1: prop1.value,
+			prop2: prop2.value,
+			prop3: prop3.value,
+			prop4: prop4.value,
+			prop5: prop5.value,
+			min: min.value,
+			max: max.value,
+			step: step.value
 		})
 		.then(response => {
 			loading.value = false;
@@ -136,6 +145,15 @@
 		});
 	}
 
+	function changeType()
+	{
+		prop1.value = '';
+		prop2.value = '';
+		prop3.value = '';
+		prop4.value = '';
+		prop5.value = '';
+	}
+
 	onMounted(() =>
 	{
 		if (isUpdate)
@@ -147,9 +165,18 @@
 			{
 				loading.value = false;
 				console.log(response);
+				type.value = response.data.question_type_shortcut;
 				name.value = response.data.name;
 				content.value = response.data.content;
 				order.value = response.data.order;
+				prop1.value = response.data.prop1;
+				prop2.value = response.data.prop2;
+				prop3.value = response.data.prop3;
+				prop4.value = response.data.prop4;
+				prop5.value = response.data.prop5;
+				min.value = response.data.min;
+				max.value = response.data.max;
+				step.value = response.data.step;
 			})
 			.catch(error =>
 			{
@@ -163,11 +190,11 @@
 
 <template>
 	<v-btn icon="mdi-arrow-left" @click="$router.back()"></v-btn>
-	<v-card>
+	<v-card class="mt-3">
 		<v-card-title v-if="!isUpdate">Création d'une question</v-card-title>
 		<v-card-title v-else>Mise à jour d'une question</v-card-title>
 		<v-form ref="form">
-			<v-select
+			<v-select v-if="!isUpdate"  @click="changeType()"
 				v-model="type"
 				:rules="typeRules"
 				variant="outlined"
@@ -176,58 +203,64 @@
 			</v-select>
 
 			<!-- Type Cursor -->
-			<v-text-field v-if="type == 'Curseur'"
-				v-model="min"
-				:rules="minRules"
-				variant="outlined"
-				label="Minimum du curseur"
-				type="number"
-				step="1">
-			</v-text-field>
-			<v-text-field v-if="type == 'Curseur'"
-				v-model="max"
-				:rules="maxRules"
-				variant="outlined"
-				label="Maximum du curseur"
-				type="number"
-				step="1">
-			</v-text-field>
-			<v-text-field v-if="type == 'Curseur'"
-				v-model="step"
-				:rules="stepRules"
-				variant="outlined"
-				label="Pas du curseur"
-				type="number"
-				step="1">
-			</v-text-field>
+			<div class="d-flex ga-3">
+				<v-text-field v-if="type == 'Curseur'"
+					v-model="min"
+					:rules="minRules"
+					variant="outlined"
+					label="Minimum du curseur"
+					type="number"
+					step="1">
+				</v-text-field>
+				<v-text-field v-if="type == 'Curseur'"
+					v-model="max"
+					:rules="maxRules"
+					variant="outlined"
+					label="Maximum du curseur"
+					type="number"
+					step="1">
+				</v-text-field>
+				<v-text-field v-if="type == 'Curseur'"
+					v-model="step"
+					:rules="stepRules"
+					variant="outlined"
+					label="Pas du curseur"
+					type="number"
+					step="1">
+				</v-text-field>
+			</div>
 
 			<!-- Type QCM -->
-			<v-text-field v-if="type == 'Question à choix multiple'"
-				v-model="prop1"
-				:rules="propsRules"
-				variant="outlined"
-				label="Proposition 1 *"
-				clearable>
-			</v-text-field>
-			<v-text-field v-if="type == 'Question à choix multiple'"
-				v-model="prop2"
-				:rules="propsRules"
-				variant="outlined"
-				label="Proposition 2 *"
-				clearable>
-			</v-text-field>
-			<v-text-field v-if="type == 'Question à choix multiple'"
-				v-model="prop3"
-				variant="outlined"
-				label="Proposition 3"
-				clearable>
-			</v-text-field>
-			<v-text-field v-if="type == 'Question à choix multiple'"
-				v-model="prop4"
-				variant="outlined"
-				label="Proposition 4"
-				clearable>
-			</v-text-field>
+			<div class="d-flex ga-3">
+				<v-text-field v-if="type == 'Question à choix multiple'"
+					v-model="prop1"
+					:rules="propsRules"
+					variant="outlined"
+					label="Proposition 1 *"
+					clearable>
+				</v-text-field>
+				<v-text-field v-if="type == 'Question à choix multiple'"
+					v-model="prop2"
+					:rules="propsRules"
+					variant="outlined"
+					label="Proposition 2 *"
+					clearable>
+				</v-text-field>
+			</div>
+			<div class="d-flex ga-3">
+				<v-text-field v-if="type == 'Question à choix multiple'"
+					v-model="prop3"
+					variant="outlined"
+					label="Proposition 3"
+					clearable>
+				</v-text-field>
+				<v-text-field v-if="type == 'Question à choix multiple'"
+					v-model="prop4"
+					variant="outlined"
+					label="Proposition 4"
+					clearable>
+				</v-text-field>
+			</div>
 			<v-text-field v-if="type == 'Question à choix multiple'"
 				v-model="prop5"
 				variant="outlined"

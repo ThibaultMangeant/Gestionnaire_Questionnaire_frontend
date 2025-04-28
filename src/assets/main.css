@@ -18,17 +18,12 @@ a {
   }
 }
 
-header
-{
-	z-index: 1
-}
-
-nav
-{
-	z-index: 2;
-}
-
 .mdi-arrow-left
 {
 	color: #499ca5;
+}
+
+.v-toolbar__content
+{
+	height: 97px !important;
 }
