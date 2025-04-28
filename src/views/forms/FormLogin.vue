@@ -11,6 +11,8 @@
 	const password = ref('');
 	const remember = ref(false);
 
+	const showPassword = ref(false);
+
 
 	const emailRules =
 	[
@@ -77,19 +79,21 @@
 				:rules="emailRules"
 				variant="outlined"
 				label="Adresse Email *"
+				prepend-inner-icon="mdi-email"
 				placeholder="johndoe@gmail.com"
 				type="email"
 				clearable
 				required>
 			</v-text-field>
-			<v-text-field
+			<v-text-field @click:append-inner="showPassword = !showPassword"
 				v-model="password"
 				:rules="passwordRules"
 				variant="outlined"
 				label="Mot de passe *"
-				type="password"
+				prepend-inner-icon="mdi-lock"
+				:append-inner-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+				:type="showPassword ? 'text' : 'password'"
 				hint="Attention à vérifier si le caps lock est activé"
-				clearable
 				required>
 			</v-text-field>
 			<v-checkbox

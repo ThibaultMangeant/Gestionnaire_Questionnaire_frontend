@@ -11,6 +11,8 @@
 	const password = ref('');
 	const confirmPassword = ref('');
 
+	const showPassword = ref(false);
+
 
 	const nameRules =
 	[
@@ -87,6 +89,7 @@
 				:rules="nameRules"
 				variant="outlined"
 				label="Nom d'utilisateur *"
+				prepend-inner-icon="mdi-account"
 				placeholder="John doe"
 				clearable
 				required>
@@ -96,19 +99,21 @@
 				:rules="emailRules"
 				variant="outlined"
 				label="Adresse Email *"
+				prepend-inner-icon="mdi-email"
 				placeholder="johndoe@gmail.com"
 				type="email"
 				clearable
 				required>
 			</v-text-field>
-			<v-text-field
+			<v-text-field @click:append-inner="showPassword = !showPassword"
 				v-model="password"
 				:rules="passwordRules"
 				variant="outlined"
 				label="Mot de passe *"
-				type="password"
-				hint="Vérifier si le caps lock est activé !"
-				clearable
+				prepend-inner-icon="mdi-lock"
+				:append-inner-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+				:type="showPassword ? 'text' : 'password'"
+				hint="Attention à vérifier si le caps lock est activé"
 				required>
 			</v-text-field>
 			<v-text-field
@@ -116,6 +121,7 @@
 				:rules="confirmPasswordRules"
 				variant="outlined"
 				label="Confirmation du mot de passe *"
+				prepend-inner-icon="mdi-lock-check"
 				type="password"
 				hint="Vérifier si le caps lock est activé !"
 				clearable
