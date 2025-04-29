@@ -196,7 +196,7 @@
 		<v-card-title v-if="!isUpdate">Création d'une question</v-card-title>
 		<v-card-title v-else>Mise à jour d'une question</v-card-title>
 		<v-form ref="form">
-			<v-select v-if="!isUpdate"  @click="changeType()"
+			<v-select @click="changeType()"
 				v-model="type"
 				:rules="typeRules"
 				variant="outlined"
