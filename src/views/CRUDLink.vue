@@ -108,7 +108,9 @@
 </script>
 
 <template>
-	<v-btn icon="mdi-arrow-left" @click="$router.back()"></v-btn>
+	<RouterLink to="/questionnaire">
+		<v-btn icon="mdi-arrow-left"></v-btn>
+	</RouterLink>
 	<h1>Liens</h1>
 
 	<!-- Bouton Add -->
