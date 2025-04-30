@@ -12,7 +12,7 @@ const router = createRouter(
 		{
 			path: '/questionnaire',
 			name: 'questionnaire',
-			component: () => import('../views/CRUDQuestionnaires.vue'),
+			component: () => import('../views/cruds/CRUDQuestionnaires.vue'),
 		},
 
 		{
@@ -29,14 +29,14 @@ const router = createRouter(
 		{
 			path: '/questionnaire/link/:idQuestionnaire',
 			name: 'questionnaire_link',
-			component: () => import('../views/CRUDLink.vue')
+			component: () => import('../views/cruds/CRUDLink.vue')
 		},
 
 
 		{
 			path: '/questionnaire/:idQuestionnaire',
 			name: 'question',
-			component: () => import('../views/CRUDQuestions.vue'),
+			component: () => import('../views/cruds/CRUDQuestions.vue'),
 		},
 
 		{

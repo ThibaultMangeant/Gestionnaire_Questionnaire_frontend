@@ -1,6 +1,6 @@
 <script setup>
 	import { onMounted } from 'vue'
-	import axios from '../axios.js';
+	import axios from '../../axios.js';
 	import { ref } from 'vue';
 
 
