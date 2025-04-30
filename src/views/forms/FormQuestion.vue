@@ -165,7 +165,7 @@
 			{
 				loading.value = false;
 				console.log(response);
-				type.value = response.data.question_type_shortcut;
+				type.value = response.data.question_type_name;
 				name.value = response.data.name;
 				content.value = response.data.content;
 				order.value = response.data.order;

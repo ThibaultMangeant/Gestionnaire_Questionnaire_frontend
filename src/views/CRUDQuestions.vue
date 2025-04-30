@@ -13,7 +13,7 @@
 	[
 		{ title: 'Nom', key: 'name'},
 		{ title: 'Énoncé', key: 'content' },
-		{ title: 'Type', key: 'question_type_shortcut'},
+		{ title: 'Type', key: 'question_type_name'},
 		{ title: 'Ordre', key: 'order'},
 		{ title: 'Actions', key: 'actions', align: 'center', sortable: false}
 	];
