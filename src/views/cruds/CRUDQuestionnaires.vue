@@ -79,6 +79,14 @@
 			</template>
 			<template v-slot:item.actions="{ item }">
 				<div class="d-flex ga-2 justify-end">
+					<RouterLink :to="'/preview/' + item.id">
+						<v-tooltip location="top" text="Prévisualiser">
+							<template v-slot:activator="{ props }">
+								<v-icon v-bind="props" color="black" icon="mdi-eye"></v-icon>
+							</template>
+						</v-tooltip>
+					</RouterLink>
+
 					<RouterLink :to="'/questionnaire/update/' + item.id">
 						<v-tooltip location="top" text="Modifier">
 							<template v-slot:activator="{ props }">

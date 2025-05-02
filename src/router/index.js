@@ -52,6 +52,13 @@ const router = createRouter(
 
 
 		{
+			path: '/preview/:idQuestionnaire',
+			name: 'preview-questionnaire',
+			component: () => import('../views/ViewQuestionnaire.vue')
+		},
+
+
+		{
 			path: '/login',
 			name: 'user-login',
 			component: () => import('../views/forms/FormLogin.vue')
