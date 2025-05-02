@@ -1,12 +1,12 @@
 <script setup>
-defineProps(
-{
-	question:
+	defineProps(
 	{
-		type: Object,
-		required: true,
-	}
-});
+		question:
+		{
+			type: Object,
+			required: true,
+		}
+	});
 </script>
 
 <template>
@@ -17,7 +17,8 @@ defineProps(
 			:min="question.type.min"
 			:max="question.type.max"
 			:step="question.type.step"
-			show-ticks
+			tick-size="4"
+			show-ticks="always"
 			thumb-label>
 		</v-slider>
 	</v-sheet>

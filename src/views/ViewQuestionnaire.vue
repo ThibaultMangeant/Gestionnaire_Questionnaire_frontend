@@ -10,6 +10,8 @@
 
 	const route = useRoute();
 
+	const isPreview = route.fullPath.includes('preview');
+
 	const title = ref('');
 	const loading = ref(false);
 
@@ -20,7 +22,7 @@
 	{
 		loading.value = true;
 
-		if (route.params.idQuestionnaire !== undefined)
+		if (isPreview)
 		{
 			title.value = 'Prévisualisation du questionnaire';
 			axios.get('/api/question/id/' + route.params.idQuestionnaire)
@@ -34,7 +36,7 @@
 				console.error('Erreur lors de la récupération des questions.', error);
 			});
 		}
-		else if (route.params.token !== undefined)
+		else if (!isPreview)
 		{
 			title.value = 'Visualisation du questionnaire';
 			axios.get('/api/question/token/' + route.params.token)
@@ -52,7 +54,7 @@
 </script>
 
 <template>
-	<RouterLink to="/questionnaire/">
+	<RouterLink v-if="isPreview" to="/questionnaire/">
 		<v-btn icon="mdi-arrow-left"></v-btn>
 	</RouterLink>
 	<v-card :loading="loading" :title="title">
