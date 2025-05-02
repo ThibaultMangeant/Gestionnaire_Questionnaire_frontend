@@ -10,6 +10,7 @@
 
 	const route = useRoute();
 
+	const title = ref('');
 	const loading = ref(false);
 
 	const questions = ref([]);
@@ -19,16 +20,34 @@
 	{
 		loading.value = true;
 
-		axios.get('/api/question/' + route.params.idQuestionnaire)
-		.then(response => {
-			loading.value = false;
-			questions.value = response.data;
-			console.log(response);
-		})
-		.catch(error => {
-			loading.value = false;
-			console.error('Erreur lors de la récupération des questions.', error);
-		});
+		if (route.params.idQuestionnaire !== undefined)
+		{
+			title.value = 'Prévisualisation du questionnaire';
+			axios.get('/api/question/id/' + route.params.idQuestionnaire)
+			.then(response => {
+				loading.value = false;
+				questions.value = response.data;
+				console.log(response);
+			})
+			.catch(error => {
+				loading.value = false;
+				console.error('Erreur lors de la récupération des questions.', error);
+			});
+		}
+		else if (route.params.token !== undefined)
+		{
+			title.value = 'Visualisation du questionnaire';
+			axios.get('/api/question/token/' + route.params.token)
+			.then(response => {
+				loading.value = false;
+				questions.value = response.data;
+				console.log(response);
+			})
+			.catch(error => {
+				loading.value = false;
+				console.error('Erreur lors de la récupération des questions.', error);
+			});
+		}
 	});
 </script>
 
@@ -36,8 +55,7 @@
 	<RouterLink to="/questionnaire/">
 		<v-btn icon="mdi-arrow-left"></v-btn>
 	</RouterLink>
-	<v-card :loading="loading">
-		<v-card-title>Prévisualisation du questionnaire</v-card-title>
+	<v-card :loading="loading" :title="title">
 		<v-divider class="border-opacity-75"></v-divider>
 
 		<OpenEnded v-if="questions.length > 0 && questions[step].question_type_name == 'Question ouverte'"          :question="questions[step]" />

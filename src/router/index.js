@@ -56,6 +56,11 @@ const router = createRouter(
 			name: 'preview-questionnaire',
 			component: () => import('../views/ViewQuestionnaire.vue')
 		},
+		{
+			path: '/view/:token',
+			name: 'view-questionnaire',
+			component: () => import('../views/ViewQuestionnaire.vue')
+		},
 
 
 		{
