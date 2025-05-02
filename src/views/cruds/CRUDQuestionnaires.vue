@@ -12,6 +12,8 @@
 	[
 		{ title: 'Nom', key: 'name'},
 		{ title: 'Description', key: 'description' },
+		{ title: 'Date de création', key: 'created_at'},
+		{ title: 'Date de mise à jour', key: 'updated_at'},
 		{ title: 'Actions', key: 'actions', align: 'center', sortable: false}
 	]
 
