@@ -22,7 +22,7 @@
 	{
 		loading.value = true;
 
-		axios.get('/api/question/' + route.params.idQuestionnaire)
+		axios.get('/api/question/id/' + route.params.idQuestionnaire)
 		.then(response => {
 			loading.value = false;
 			questions.value = response.data;
