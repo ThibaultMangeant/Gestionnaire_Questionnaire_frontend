@@ -52,6 +52,30 @@
 		});
 	}
 
+	function slideUp(question)
+	{
+		const indiceQuestion = questions.value.indexOf(question);
+
+		if (indiceQuestion > 0 && indiceQuestion < questions.value.length)
+		{
+			const temp = questions.value[indiceQuestion];
+			questions.value[indiceQuestion] = questions.value[indiceQuestion - 1];
+			questions.value[indiceQuestion - 1] = temp;
+		}
+	}
+
+	function slideDown(question)
+	{
+		const indiceQuestion = questions.value.indexOf(question);
+
+		if (indiceQuestion >= 0 && indiceQuestion < questions.value.length - 1)
+		{
+			const temp = questions.value[indiceQuestion];
+			questions.value[indiceQuestion] = questions.value[indiceQuestion + 1];
+			questions.value[indiceQuestion + 1] = temp;
+		}
+	}
+
 	onMounted(() =>
 	{
 		fetchQuestions()
@@ -100,6 +124,11 @@
 							<v-icon v-bind="props" color="red" icon="mdi-delete" @click="deleteQuestion(item)"></v-icon>
 						</template>
 					</v-tooltip>
+
+					<v-spacer></v-spacer>
+					<v-spacer></v-spacer>
+					<v-icon icon="mdi-arrow-up"   @click="slideUp(item)"  ></v-icon>
+					<v-icon icon="mdi-arrow-down" @click="slideDown(item)"></v-icon>
 				</div>
 			</template>
 			<template v-slot:no-data>
