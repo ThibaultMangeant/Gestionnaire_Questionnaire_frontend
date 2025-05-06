@@ -57,7 +57,7 @@
 	<RouterLink v-if="isPreview" to="/questionnaire/">
 		<v-btn icon="mdi-arrow-left"></v-btn>
 	</RouterLink>
-	<v-card :loading="loading" :title="title">
+	<v-card :loading="loading" :title="title" width="600">
 		<v-divider class="border-opacity-75"></v-divider>
 
 		<OpenEnded v-if="questions.length > 0 && questions[step].question_type_name == 'Question ouverte'"          :question="questions[step]" />
@@ -65,18 +65,20 @@
 		<QCM       v-if="questions.length > 0 && questions[step].question_type_name == 'Question à choix multiple'" :question="questions[step]" />
 		<FalseTrue v-if="questions.length > 0 && questions[step].question_type_name == 'Vrai/Faux'"                 :question="questions[step]" />
 
-		<div class="d-flex">
+		<v-card-actions>
 			<v-btn v-if="step > 0" @click="step--"
+				elevation="1"
 				class="ma-2"
 				prepend-icon="mdi-arrow-left">
 				Question précèdente
 			</v-btn>
-			<v-spacer class="ms-16"></v-spacer>
+			<v-spacer></v-spacer>
 			<v-btn v-if="step < questions.length - 1" @click="step++"
+				elevation="1"
 				class="ma-2"
 				append-icon="mdi-arrow-right">
 				Question suivante
 			</v-btn>
-		</div>
+		</v-card-actions>
 	</v-card>
 </template>

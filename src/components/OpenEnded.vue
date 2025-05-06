@@ -14,7 +14,11 @@ defineProps(
 		<h1 class="pl-5">{{ question.name }}</h1>
 		<h2 class="pl-2">{{ question.content }}</h2>
 		<v-textarea
-			label="Votre réponse"
+			rows="1"
+			variant="outlined"
+			placeholder="Votre réponse"
+			auto-grow
+			counter
 			clearable>
 		</v-textarea>
 	</v-sheet>
