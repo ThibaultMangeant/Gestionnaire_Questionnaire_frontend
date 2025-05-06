@@ -8,6 +8,8 @@
 
 	const loading = ref(false);
 
+	const breadcrumbsItems = ['Questionnaires'];
+
 	const headers =
 	[
 		{ title: 'Nom', key: 'name'},
@@ -56,6 +58,7 @@
 </script>
 
 <template>
+	<v-breadcrumbs :items="breadcrumbsItems"></v-breadcrumbs>
 	<h1>Questionnaires</h1>
 	<!-- Bouton Add -->
 	<div class="text-right my-4">

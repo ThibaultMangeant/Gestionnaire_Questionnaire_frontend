@@ -9,6 +9,8 @@
 
 	const loading = ref(false);
 
+	const breadcrumbsItems = ['Questionnaires', 'Questions'];
+
 	const headers =
 	[
 		{ title: 'Nom', key: 'name'},
@@ -57,6 +59,7 @@
 </script>
 
 <template>
+	<v-breadcrumbs :items="breadcrumbsItems"></v-breadcrumbs>
 	<RouterLink to="/questionnaire">
 		<v-btn icon="mdi-arrow-left"></v-btn>
 	</RouterLink>

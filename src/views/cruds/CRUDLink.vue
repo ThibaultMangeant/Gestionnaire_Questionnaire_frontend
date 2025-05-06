@@ -5,6 +5,8 @@
 
 	const route = useRoute();
 
+	const breadcrumbsItems = ['Questionnaires', 'Liens'];
+
 	const links = ref([]);
 
 	const form = ref();
@@ -108,6 +110,7 @@
 </script>
 
 <template>
+	<v-breadcrumbs :items="breadcrumbsItems"></v-breadcrumbs>
 	<RouterLink to="/questionnaire">
 		<v-btn icon="mdi-arrow-left"></v-btn>
 	</RouterLink>
