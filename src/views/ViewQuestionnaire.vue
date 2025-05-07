@@ -38,6 +38,7 @@
 		}
 		else if (!isPreview)
 		{
+			const token = route.fullPath.substring(route.fullPath.lastIndexOf('/') + 1);
 			title.value = 'Visualisation du questionnaire';
 			axios.get('/api/question/token/' + route.params.token)
 			.then(response => {
@@ -48,6 +49,19 @@
 			.catch(error => {
 				loading.value = false;
 				console.error('Erreur lors de la récupération des questions.', error);
+			});
+
+			axios.put('/api/link/update/' + token,
+			{
+				state: 'Consulté',
+			})
+			.then(response =>
+			{
+				console.log(response.data);
+			})
+			.catch(error =>
+			{
+				console.error(error);
 			});
 		}
 	});
