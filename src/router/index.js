@@ -12,7 +12,7 @@ async function canAccess(to)
 	}
 }
 
-function isAuthenticated()
+async function isAuthenticated()
 {
 	const user = ref();
 
