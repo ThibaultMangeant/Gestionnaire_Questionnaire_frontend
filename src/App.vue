@@ -14,10 +14,6 @@
 		.then(response => 
 		{
 			user.value = response.data;
-			if (user.value === '' &&
-			    window.location.href !== 'http://localhost:5174/login' &&
-			    window.location.href !== 'http://localhost:5174/register')
-				window.location.href = 'http://localhost:5174/login'
 			console.log('Utilisateur récupérée', response.data);
 		})
 		.catch(error =>
