@@ -70,12 +70,16 @@
 
 	onMounted(() =>
 	{
+		loading.value = true;
+
 		axios.get('/sanctum/csrf-cookie').then(response =>
 		{
+			loading.value = false;
 			console.log("crsf-cookie récupéré.");
 		})
 		.catch(error =>
 		{
+			loading.value = false;
 			console.error("Erreur lors de la récupération du csrf-cookie.")
 		});
 	});

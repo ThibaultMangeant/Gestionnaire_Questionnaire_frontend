@@ -11,12 +11,84 @@
 	const route = useRoute();
 
 	const isPreview = route.fullPath.includes('preview');
+	const token = route.params.token;
 
 	const title = ref('');
 	const loading = ref(false);
 
 	const questions = ref([]);
 	const step = ref(0);
+
+	const answer = ref();
+
+	function sendAnswer()
+	{
+		axios.post('/api/answer/add/' + questions.value[step.value].id,
+		{
+			answer: answer.value,
+		})
+		.then(response =>
+		{
+			console.log(response.data);
+		})
+		.catch(error =>
+		{
+			console.error(error);
+		});
+
+		axios.put('/api/link/update/' + token,
+		{
+			state: 'En cours',
+		})
+		.then(response =>
+		{
+			console.log(response.data);
+		})
+		.catch(error =>
+		{
+			console.error(error);
+		});
+	}
+
+	function resetAnswer()
+	{
+		const currentQuestion = questions.value[step.value];
+
+		switch (currentQuestion.question_type_name)
+		{
+			case 'Question ouverte':
+				answer.value = '';
+				break;
+			case 'Curseur':
+				answer.value = 0;
+				break;
+			case 'Question à choix multiple':
+				answer.value = [false, false, false, false, false];
+				break;
+			case 'Vrai/Faux':
+				answer.value = null;
+				break;
+			default:
+				answer.value = null;
+		}
+	}
+
+	function endQuestionnaire()
+	{
+		axios.put('/api/link/update/' + token,
+		{
+			state: 'Terminé',
+		})
+		.then(response =>
+		{
+			window.location.href="http://localhost:5174/questionnaire/";
+			console.log(response.data);
+		})
+		.catch(error =>
+		{
+			console.error(error);
+		});
+	}
 
 	onMounted(() =>
 	{
@@ -38,9 +110,8 @@
 		}
 		else if (!isPreview)
 		{
-			const token = route.fullPath.substring(route.fullPath.lastIndexOf('/') + 1);
 			title.value = 'Visualisation du questionnaire';
-			axios.get('/api/question/token/' + route.params.token)
+			axios.get('/api/question/token/' + token)
 			.then(response => {
 				loading.value = false;
 				questions.value = response.data;
@@ -74,24 +145,43 @@
 	<v-card :loading="loading" :title="title" width="600">
 		<v-divider class="border-opacity-75"></v-divider>
 
-		<OpenEnded v-if="questions.length > 0 && questions[step].question_type_name == 'Question ouverte'"          :question="questions[step]" />
-		<Cursor    v-if="questions.length > 0 && questions[step].question_type_name == 'Curseur'"                   :question="questions[step]" />
-		<QCM       v-if="questions.length > 0 && questions[step].question_type_name == 'Question à choix multiple'" :question="questions[step]" />
-		<FalseTrue v-if="questions.length > 0 && questions[step].question_type_name == 'Vrai/Faux'"                 :question="questions[step]" />
+		<OpenEnded
+			v-if="questions.length > 0 && questions[step].question_type_name == 'Question ouverte'"
+			:question="questions[step]"
+			v-model:answer="answer"/>
 
-		<v-card-actions>
-			<v-btn v-if="step > 0" @click="step--"
+		<Cursor
+			v-if="questions.length > 0 && questions[step].question_type_name == 'Curseur'"
+			:question="questions[step]"
+			v-model:answer="answer"/>
+		<QCM
+			v-if="questions.length > 0 && questions[step].question_type_name == 'Question à choix multiple'"
+			:question="questions[step]"
+			v-model:answer="answer"/>
+		<FalseTrue
+			v-if="questions.length > 0 && questions[step].question_type_name == 'Vrai/Faux'"
+			:question="questions[step]"
+			v-model:answer="answer"/>
+
+		<v-card-actions v-if="!loading">
+			<v-btn v-if="step > 0" @click="step--; resetAnswer();"
 				elevation="1"
 				class="ma-2"
 				prepend-icon="mdi-arrow-left">
 				Question précèdente
 			</v-btn>
 			<v-spacer></v-spacer>
-			<v-btn v-if="step < questions.length - 1" @click="step++"
+			<v-btn v-if="step < questions.length - 1" @click="sendAnswer(); step++; resetAnswer();"
 				elevation="1"
 				class="ma-2"
 				append-icon="mdi-arrow-right">
 				Question suivante
+			</v-btn>
+			<v-btn v-else @click="sendAnswer(); endQuestionnaire();"
+				elevation="1"
+				class="ma-2"
+				append-icon="mdi-check-circle">
+				Terminer le questionnaire
 			</v-btn>
 		</v-card-actions>
 	</v-card>

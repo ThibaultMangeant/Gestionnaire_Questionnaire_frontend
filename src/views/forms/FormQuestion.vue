@@ -293,8 +293,7 @@
 				label="Ordre de la question *"
 				type="number"
 				min="0"
-				step="1"
-				hint="Le numéro indique la position dans le questionnaire (ex: 0 = Pas d'ordre, 1 = Première position)">
+				step="1">
 			</v-text-field>
 			<v-btn v-if="!isUpdate" @click.prevent="validate()"
 				append-icon="mdi-check-circle"
