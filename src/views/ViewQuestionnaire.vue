@@ -15,6 +15,7 @@
 
 	const title = ref('');
 	const loading = ref(false);
+	const alreadyAnswered = ref(false);
 
 	const questions = ref([]);
 	const step = ref(0);
@@ -120,6 +121,10 @@
 			.catch(error => {
 				loading.value = false;
 				console.error('Erreur lors de la récupération des questions.', error);
+				if (error.response.status === 403)
+				{
+					alreadyAnswered.value = true;
+				}
 			});
 
 			axios.put('/api/link/update/' + token,
@@ -142,7 +147,7 @@
 	<RouterLink v-if="isPreview" to="/questionnaire/">
 		<v-btn icon="mdi-arrow-left"></v-btn>
 	</RouterLink>
-	<v-card :loading="loading" :title="title" width="600">
+	<v-card v-if="!alreadyAnswered" :loading="loading" :title="title" width="600">
 		<v-divider class="border-opacity-75"></v-divider>
 
 		<OpenEnded
@@ -164,12 +169,6 @@
 			v-model:answer="answer"/>
 
 		<v-card-actions v-if="!loading">
-			<v-btn v-if="step > 0" @click="step--; resetAnswer();"
-				elevation="1"
-				class="ma-2"
-				prepend-icon="mdi-arrow-left">
-				Question précèdente
-			</v-btn>
 			<v-spacer></v-spacer>
 			<v-btn v-if="step < questions.length - 1" @click="sendAnswer(); step++; resetAnswer();"
 				elevation="1"
@@ -185,4 +184,5 @@
 			</v-btn>
 		</v-card-actions>
 	</v-card>
+	<h1 v-else>Vous avez déjà répondu à ce questionnaire</h1>
 </template>
