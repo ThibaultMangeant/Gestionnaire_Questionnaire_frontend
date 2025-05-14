@@ -113,6 +113,14 @@
 							</template>
 						</v-tooltip>
 					</RouterLink>
+
+					<RouterLink :to="'/questionnaire/result/' + item.id">
+						<v-tooltip location="top" text="Voir les résultats">
+							<template v-slot:activator="{ props }">
+								<v-icon v-bind="props" icon="mdi-chart-bar"></v-icon>
+							</template>
+						</v-tooltip>
+					</RouterLink>
 				</div>
 			</template>
 			<template v-slot:no-data>
