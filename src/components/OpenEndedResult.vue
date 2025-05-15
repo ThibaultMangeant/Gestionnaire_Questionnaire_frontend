@@ -42,24 +42,27 @@ onMounted(() =>
 </script>
 
 <template>
-	<v-sheet>
+	<v-sheet :loading="loading">
 		<h1 class="pl-5">{{ question.name }}</h1>
 		<h2 class="pl-2">{{ question.content }}</h2>
 
 		<v-divider class="border-opacity-25"></v-divider>
 
-		<v-virtual-scroll class="pt-2"
-			:height="100"
-			:items="answers">
-			<template v-slot:default="{ item }">
-				<v-sheet
-					color="#EAEAEA"
-					width="600"
-					height="75"
-					elevation="2"
-					rounded>{{ item }}</v-sheet>
-				<v-spacer class="mt-2"></v-spacer>
-			</template>
-		</v-virtual-scroll>
+		<div v-if="!loading">
+			<v-virtual-scroll v-if="answers.length > 0" class="pt-2"
+				:height="100"
+				:items="answers">
+				<template v-slot:default="{ item }">
+					<v-sheet
+						color="#EAEAEA"
+						width="600"
+						height="75"
+						elevation="2"
+						rounded>{{ item }}</v-sheet>
+					<v-spacer class="mt-2"></v-spacer>
+				</template>
+			</v-virtual-scroll>
+			<h2 v-else class="text-center ma-10">Pas de réponses</h2>
+		</div>
 	</v-sheet>
 </template>

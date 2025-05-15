@@ -16,6 +16,7 @@ const loading = ref(false);
 const questions = ref([]);
 const step = ref(0);
 
+
 onMounted(() =>
 {
 	loading.value = true;
@@ -44,16 +45,20 @@ onMounted(() =>
 
 		<OpenEndedResult
 			v-if="questions.length > 0 && questions[step].question_type_name == 'Question ouverte'"
-			:question="questions[step]"/>
+			:question="questions[step]"
+			:key="questions[step].id"/>
 		<CursorResult
 			v-if="questions.length > 0 && questions[step].question_type_name == 'Curseur'"
-			:question="questions[step]"/>
+			:question="questions[step]"
+			:key="questions[step].id"/>
 		<QCMResult
 			v-if="questions.length > 0 && questions[step].question_type_name == 'Question à choix multiple'"
-			:question="questions[step]"/>
+			:question="questions[step]"
+			:key="questions[step].id"/>
 		<FalseTrueResult
 			v-if="questions.length > 0 && questions[step].question_type_name == 'Vrai/Faux'"
-			:question="questions[step]" />
+			:question="questions[step]"
+			:key="questions[step].id"/>
 
 		<v-card-actions v-if="!loading">
 			<v-btn v-if="step > 0 && questions.length > 0" @click="step--"

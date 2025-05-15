@@ -15,6 +15,8 @@ import
 
 import { Bar } from 'vue-chartjs';
 
+ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
+
 const props = defineProps(
 {
 	question:
@@ -25,30 +27,8 @@ const props = defineProps(
 });
 
 const question = props.question;
-
-const loaded = ref(false);
-
-const counts = ref([]);
-
-ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
-
-const labels =
-[
-	question.type.prop1 ? question.type.prop1 : null,
-	question.type.prop2 ? question.type.prop2 : null,
-	question.type.prop3 ? question.type.prop3 : null,
-	question.type.prop4 ? question.type.prop4 : null,
-	question.type.prop5 ? question.type.prop5 : null,
-];
-
-const chartData =
-{
-	labels: labels,
-	datasets:
-	[
-		{ label: 'Nombre de réponses par proposition', data: counts.value, backgroundColor: '#499ca5' },
-	]
-}
+const loading = ref(false);
+const chartData = ref(null);
 
 const chartOptions =
 {
@@ -60,26 +40,59 @@ const chartOptions =
 			display: true,
 			text: 'Réponses'
 		}
+	},
+	scales:
+	{
+		y:
+		{
+			beginAtZero: true,
+			min: 0,
+			ticks:
+			{
+				stepSize: 1,
+				callback: (value) => value + ' réponses'
+			}
+		}
 	}
-}
+};
+
+const labels =
+[
+	question.type.prop1,
+	question.type.prop2,
+	question.type.prop3,
+	question.type.prop4,
+	question.type.prop5,
+].filter(label => label); // élimine les null/undefined
 
 onMounted(() =>
 {
-	loaded.value = false;
+	loading.value = true;
 
 	axios.get('/api/result/numberAnswerQCM/' + question.id)
 	.then(response =>
 	{
-		loaded.value = true;
+		const counts = response.data;
 
-		counts.value = response.data;
+		chartData.value =
+		{
+			labels: labels,
+			datasets:
+			[
+				{
+					label: 'Nombre de réponses par proposition',
+					data: counts,
+					backgroundColor: '#499ca5'
+				}
+			]
+		};
 
-		console.log("Réponses récupérées avec succès.", response);
+		loading.value = false;
 	})
 	.catch(error =>
 	{
-		loaded.value = true;
 		console.error("Erreur lors de la récupération des réponses.", error);
+		loading.value = false;
 	});
 });
 </script>
@@ -91,6 +104,6 @@ onMounted(() =>
 
 		<v-divider class="border-opacity-25"></v-divider>
 
-		<Bar v-if="loaded" :data="chartData" :options="chartOptions" />
+		<Bar v-if="!loading && chartData" :data="chartData" :options="chartOptions" />
 	</v-sheet>
 </template>

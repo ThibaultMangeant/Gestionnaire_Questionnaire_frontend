@@ -1,4 +1,7 @@
 <script setup>
+
+import { ref, onMounted } from 'vue';
+import axios from '../axios.js';
 import
 {
 	Chart as ChartJS,
@@ -23,26 +26,15 @@ const props = defineProps(
 
 const question = props.question;
 
+const loading = ref(false);
+
+const chartData = ref(null);
+
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
-
-const labels =
-[
-	"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15"
-];
-
-const chartData =
-{
-	labels: labels,
-	datasets:
-	[
-		{ label: 'Nombre de réponses par proposition', data: [5, 10, 10, 12, 18, 21, 25, 30, 35, 40, 41, 42, 55, 60, 61], backgroundColor: '#499ca5' },
-	]
-}
 
 const chartOptions =
 {
 	responsive: true,
-	indexAxis: 'x',
 	plugins:
 	{
 		title:
@@ -50,8 +42,53 @@ const chartOptions =
 			display: true,
 			text: 'Réponses'
 		}
+	},
+	scales:
+	{
+		y:
+		{
+			beginAtZero: true,
+			min: 0,
+			ticks:
+			{
+				stepSize: 1,
+				callback: (value) => value + ' réponses'
+			}
+		}
 	}
 }
+
+onMounted(() =>
+{
+	loading.value = true;
+
+	axios.get('/api/result/numberAnswerCursor/' + question.id)
+	.then(response =>
+	{
+		const labels = Object.values(response.data.labels);
+		const counts = Object.values(response.data.counts);
+
+		chartData.value =
+		{
+			labels: labels,
+			datasets:
+			[
+				{
+					label: 'Nombre de réponses par proposition',
+					data: counts,
+					backgroundColor: '#499ca5'
+				}
+			]
+		};
+
+		loading.value = false;
+	})
+	.catch(error =>
+	{
+		console.error("Erreur lors de la récupération des réponses.", error);
+		loading.value = false;
+	});
+});
 </script>
 
 <template>
@@ -61,6 +98,6 @@ const chartOptions =
 
 		<v-divider class="border-opacity-25"></v-divider>
 
-		<Bar :data="chartData" :options="chartOptions" />
+		<Bar v-if="!loading && chartData" :data="chartData" :options="chartOptions" />
 	</v-sheet>
 </template>

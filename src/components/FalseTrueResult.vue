@@ -1,4 +1,7 @@
 <script setup>
+
+import { ref, onMounted } from 'vue';
+import axios from '../axios.js';
 import
 {
 	Chart as ChartJS,
@@ -23,21 +26,16 @@ const props = defineProps(
 
 const question = props.question;
 
+const loading = ref(false);
+
+const chartData = ref(null);
+
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 const labels =
 [
 	"Vrai", "Faux"
 ];
-
-const chartData =
-{
-	labels: labels,
-	datasets:
-	[
-		{ label: 'Nombre de réponses par proposition', data: [10, 12], backgroundColor: '#499ca5' },
-	]
-}
 
 const chartOptions =
 {
@@ -50,8 +48,52 @@ const chartOptions =
 			display: true,
 			text: 'Réponses'
 		}
+	},
+	scales:
+	{
+		x:
+		{
+			beginAtZero: true,
+			min: 0,
+			ticks:
+			{
+				stepSize: 1,
+				callback: (value) => value + ' réponses'
+			}
+		}
 	}
 }
+
+onMounted(() =>
+{
+	loading.value = true;
+
+	axios.get('/api/result/numberAnswerFalseTrue/' + question.id)
+	.then(response =>
+	{
+		const counts = response.data;
+
+		chartData.value =
+		{
+			labels: labels,
+			datasets:
+			[
+				{
+					label: 'Nombre de réponses par proposition',
+					data: counts,
+					backgroundColor: '#499ca5'
+				}
+			]
+		};
+
+		loading.value = false;
+	})
+	.catch(error =>
+	{
+		console.error("Erreur lors de la récupération des réponses.", error);
+		loading.value = false;
+	});
+});
 </script>
 
 <template>
@@ -61,6 +103,6 @@ const chartOptions =
 
 		<v-divider class="border-opacity-25"></v-divider>
 
-		<Bar :data="chartData" :options="chartOptions" />
+		<Bar v-if="!loading && chartData" :data="chartData" :options="chartOptions" />
 	</v-sheet>
 </template>
