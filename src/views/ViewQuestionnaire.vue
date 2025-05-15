@@ -24,71 +24,80 @@
 
 	function sendAnswer()
 	{
-		axios.post('/api/answer/add/' + questions.value[step.value].id,
+		if (!isPreview)
 		{
-			answer: answer.value,
-		})
-		.then(response =>
-		{
-			console.log(response.data);
-		})
-		.catch(error =>
-		{
-			console.error(error);
-		});
+			axios.post('/api/answer/add/' + questions.value[step.value].id,
+			{
+				answer: answer.value,
+			})
+			.then(response =>
+			{
+				console.log(response.data);
+			})
+			.catch(error =>
+			{
+				console.error(error);
+			});
 
-		axios.put('/api/link/update/' + token,
-		{
-			state: 'En cours',
-		})
-		.then(response =>
-		{
-			console.log(response.data);
-		})
-		.catch(error =>
-		{
-			console.error(error);
-		});
+			axios.put('/api/link/update/' + token,
+			{
+				state: 'En cours',
+			})
+			.then(response =>
+			{
+				console.log(response.data);
+			})
+			.catch(error =>
+			{
+				console.error(error);
+			});
+		}
 	}
 
 	function resetAnswer()
 	{
-		const currentQuestion = questions.value[step.value];
-
-		switch (currentQuestion.question_type_name)
+		if (!isPreview)
 		{
-			case 'Question ouverte':
-				answer.value = '';
-				break;
-			case 'Curseur':
-				answer.value = 0;
-				break;
-			case 'Question à choix multiple':
-				answer.value = [false, false, false, false, false];
-				break;
-			case 'Vrai/Faux':
-				answer.value = null;
-				break;
-			default:
-				answer.value = null;
+			const currentQuestion = questions.value[step.value];
+
+			switch (currentQuestion.question_type_name)
+			{
+				case 'Question ouverte':
+					answer.value = '';
+					break;
+				case 'Curseur':
+					answer.value = 0;
+					break;
+				case 'Question à choix multiple':
+					answer.value = [false, false, false, false, false];
+					break;
+				case 'Vrai/Faux':
+					answer.value = null;
+					break;
+				default:
+					answer.value = null;
+			}
 		}
 	}
 
 	function endQuestionnaire()
 	{
-		axios.put('/api/link/update/' + token,
+		if (!isPreview)
 		{
-			state: 'Terminé',
-		})
-		.then(response =>
-		{
-			window.location.href="http://localhost:5174/questionnaire/";
-			console.log(response.data);
-		})
-		.catch(error =>
-		{
-			console.error(error);
-		});
+			axios.put('/api/link/update/' + token,
+			{
+				state: 'Terminé',
+			})
+			.then(response =>
+			{
+				window.location.href="http://localhost:5174/questionnaire/";
+				console.log(response.data);
+			})
+			.catch(error =>
+			{
+				console.error(error);
+			});
+		}
 	}
 
 	onMounted(() =>
@@ -153,22 +162,32 @@
 		<OpenEnded
 			v-if="questions.length > 0 && questions[step].question_type_name == 'Question ouverte'"
 			:question="questions[step]"
-			v-model:answer="answer"/>
+			v-model:answer="answer"
+			:key="questions[step].id"/>
 
 		<Cursor
 			v-if="questions.length > 0 && questions[step].question_type_name == 'Curseur'"
 			:question="questions[step]"
-			v-model:answer="answer"/>
+			v-model:answer="answer"
+			:key="questions[step].id"/>
 		<QCM
 			v-if="questions.length > 0 && questions[step].question_type_name == 'Question à choix multiple'"
 			:question="questions[step]"
-			v-model:answer="answer"/>
+			v-model:answer="answer"
+			:key="questions[step].id"/>
 		<FalseTrue
 			v-if="questions.length > 0 && questions[step].question_type_name == 'Vrai/Faux'"
 			:question="questions[step]"
-			v-model:answer="answer"/>
+			v-model:answer="answer"
+			:key="questions[step].id"/>
 
 		<v-card-actions v-if="!loading">
+			<v-btn v-if="step > 0 && questions.length > 0 && isPreview" @click="step--"
+				elevation="1"
+				class="ma-2"
+				prepend-icon="mdi-arrow-left">
+				Question précèdente
+			</v-btn>
 			<v-spacer></v-spacer>
 			<v-btn v-if="step < questions.length - 1" @click="sendAnswer(); step++; resetAnswer();"
 				elevation="1"
@@ -176,7 +195,7 @@
 				append-icon="mdi-arrow-right">
 				Question suivante
 			</v-btn>
-			<v-btn v-else @click="sendAnswer(); endQuestionnaire();"
+			<v-btn v-else-if="!isPreview" @click="sendAnswer(); endQuestionnaire();"
 				elevation="1"
 				class="ma-2"
 				append-icon="mdi-check-circle">
