@@ -104,12 +104,12 @@
 		.then(response => {
 			loading.value = false;
 			console.log(response);
-			window.location.href = "http://localhost:5174/questionnaire/" + route.params.idQuestionnaire;
+			window.location.href = "/questionnaire/" + route.params.idQuestionnaire;
 		})
 		.catch(error => {
 			loading.value = false;
 			console.error('Erreur lors de la création de la question :', error);
-			window.location.href = "http://localhost:5174/questionnaire/" + route.params.idQuestionnaire;
+			window.location.href = "/questionnaire/" + route.params.idQuestionnaire;
 		});
 	}
 
@@ -135,13 +135,13 @@
 		.then(response => {
 			loading.value = false;
 			console.log(response);
-			window.location.href = 'http://localhost:5174/questionnaire/' + route.params.idQuestionnaire;
+			window.location.href = '/questionnaire/' + route.params.idQuestionnaire;
 		})
 		.catch(error =>
 		{
 			loading.value = false;
 			console.error('Erreur lors de la mise à jour du questionnaire.', error);
-			window.location.href = 'http://localhost:5174/questionnaire/' + route.params.idQuestionnaire;
+			window.location.href = '/questionnaire/' + route.params.idQuestionnaire;
 		});
 	}
 
@@ -182,7 +182,7 @@
 			{
 				loading.value = false;
 				console.error('Erreur lors de la récupération du questionnaire.', error);
-				window.location.href = 'http://localhost:5174/questionnaire/' + route.params.idQuestionnaire;
+				window.location.href = '/questionnaire/' + route.params.idQuestionnaire;
 			});
 		}
 	});

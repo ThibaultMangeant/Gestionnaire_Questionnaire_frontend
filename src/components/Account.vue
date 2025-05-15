@@ -2,10 +2,11 @@
 import axios from '../axios.js';
 
 defineProps({
-  user: {
-    type: String,
-    required: false,
-  }
+	user:
+	{
+		type: String,
+		required: false,
+	}
 });
 
 function logout()
@@ -13,7 +14,7 @@ function logout()
 	axios.post('/logout')
 	.then(response =>
 	{
-		window.location.href = 'http://localhost:5174/login'
+		window.location.href = '/login'
 		console.log('Déconnexion réussi.');
 	})
 	.catch(error =>

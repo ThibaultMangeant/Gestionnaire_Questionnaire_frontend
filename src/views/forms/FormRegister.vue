@@ -59,7 +59,7 @@
 		{
 			loading.value = false;
 			console.log('Utilisateur enregistré avec succès.', response.data);
-			window.location.href = 'http://localhost:5174/questionnaire';
+			window.location.href = '/questionnaire';
 		})
 		.catch(error =>
 		{

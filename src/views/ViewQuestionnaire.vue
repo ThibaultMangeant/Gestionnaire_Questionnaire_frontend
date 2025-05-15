@@ -1,6 +1,6 @@
 <script setup>
 	import { ref, onMounted } from 'vue';
-	import { useRoute } from 'vue-router';
+	import { useRoute, useRouter } from 'vue-router';
 	import axios from '../axios.js';
 	import OpenEnded from '../components/OpenEnded.vue';
 	import Cursor from '../components/Cursor.vue';
@@ -9,6 +9,7 @@
 
 
 	const route = useRoute();
+	const router = useRouter();
 
 	const isPreview = route.fullPath.includes('preview');
 	const token = route.params.token;
@@ -90,7 +91,8 @@
 			})
 			.then(response =>
 			{
-				window.location.href="http://localhost:5174/questionnaire/";
+				router
+				window.location.href="/questionnaire";
 				console.log(response.data);
 			})
 			.catch(error =>

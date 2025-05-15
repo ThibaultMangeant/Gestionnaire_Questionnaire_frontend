@@ -95,7 +95,7 @@
 
 	function copyToClipboard(link)
 	{
-		const text = 'http://localhost:5174/view/' + link.token;
+		const text = 'http://' + window.location.host + '/view/' + link.token;
 
 		navigator.clipboard.writeText(text);
 		copiedToClipboard.value = 'Copié !';

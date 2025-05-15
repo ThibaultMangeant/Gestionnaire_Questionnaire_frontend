@@ -25,12 +25,14 @@
 		loading.value = true;
 
 		axios.get('/api/question/id/' + route.params.idQuestionnaire)
-		.then(response => {
+		.then(response =>
+		{
 			loading.value = false;
 			questions.value = response.data;
 			console.log(response);
 		})
-		.catch(error => {
+		.catch(error =>
+		{
 			loading.value = false;
 			console.error('Erreur lors de la récupération des questions.', error);
 		});
@@ -41,12 +43,14 @@
 		loading.value = true;
 
 		axios.delete(`/api/question/${route.params.idQuestionnaire}/${question.id}`)
-		.then(response => {
+		.then(response =>
+		{
 			loading.value = false;
 			console.log('Question supprimée avec succès.', response.data)
 			questions.value = questions.value.filter(q => q.id !== question.id)
 		})
-		.catch(error => {
+		.catch(error =>
+		{
 			loading.value = false;
 			console.error('Erreur lors de la suppression.', error)
 		});
