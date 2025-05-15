@@ -16,6 +16,8 @@ const question = props.question;
 
 const loading = ref(false);
 
+const numberOfAnswers = ref();
+
 const answers = ref([]);
 
 onMounted(() =>
@@ -27,7 +29,9 @@ onMounted(() =>
 	{
 		loading.value = false;
 
-		response.data.forEach(element =>
+		numberOfAnswers.value = response.data.numberOfAnswers;
+
+		response.data.answers.forEach(element =>
 		{
 			answers.value.push(element.answer);
 		});
@@ -64,5 +68,9 @@ onMounted(() =>
 			</v-virtual-scroll>
 			<h2 v-else class="text-center ma-10">Pas de réponses</h2>
 		</div>
+
+		<v-divider class="border-opacity-25"></v-divider>
+
+		<p class="text-center">Nombre de réponses : {{ numberOfAnswers }}</p>
 	</v-sheet>
 </template>

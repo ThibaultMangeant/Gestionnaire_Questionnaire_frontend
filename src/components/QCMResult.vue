@@ -28,6 +28,7 @@ const props = defineProps(
 
 const question = props.question;
 const loading = ref(false);
+const numberOfAnswers = ref();
 const chartData = ref(null);
 
 const chartOptions =
@@ -72,7 +73,8 @@ onMounted(() =>
 	axios.get('/api/result/numberAnswerQCM/' + question.id)
 	.then(response =>
 	{
-		const counts = response.data;
+		numberOfAnswers.value = response.data.numberOfAnswers;
+		const counts = response.data.counts;
 
 		chartData.value =
 		{
@@ -105,5 +107,9 @@ onMounted(() =>
 		<v-divider class="border-opacity-25"></v-divider>
 
 		<Bar v-if="!loading && chartData" :data="chartData" :options="chartOptions" />
+
+		<v-divider class="border-opacity-25"></v-divider>
+
+		<p class="text-center">Nombre de réponses : {{ numberOfAnswers }}</p>
 	</v-sheet>
 </template>

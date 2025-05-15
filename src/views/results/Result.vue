@@ -13,6 +13,8 @@ const route = useRoute();
 const title = ref('');
 const loading = ref(false);
 
+const numberPeopleInvited = ref();
+
 const questions = ref([]);
 const step = ref(0);
 
@@ -22,13 +24,26 @@ onMounted(() =>
 	loading.value = true;
 
 	title.value = 'Résultats du questionnaire';
+	axios.get('/api/result/numberPeopleInvited/' + route.params.idQuestionnaire)
+	.then(response =>
+	{
+		numberPeopleInvited.value = response.data;
+		console.log("Nombre de personnes invités récupérés avec succès", response);
+	})
+	.catch(error =>
+	{
+		console.error("Erreur lors de la récupération du nombre de personnes invités.", error);
+	});
+
 	axios.get('/api/question/id/' + route.params.idQuestionnaire)
-	.then(response => {
+	.then(response =>
+	{
 		loading.value = false;
 		questions.value = response.data;
-		console.log(response);
+		console.log("Questions récupérés avec succès.", response);
 	})
-	.catch(error => {
+	.catch(error =>
+	{
 		loading.value = false;
 		console.error('Erreur lors de la récupération des questions.', error);
 	});
@@ -41,6 +56,8 @@ onMounted(() =>
 	</RouterLink>
 
 	<v-card :loading="loading" :title="title" width="600">
+		<v-divider class="border-opacity-75"></v-divider>
+			<p v-if="numberPeopleInvited > 0" class="pl-2">Nombre de personnes invités à répondre : {{ numberPeopleInvited }}</p>
 		<v-divider class="border-opacity-75"></v-divider>
 
 		<OpenEndedResult
