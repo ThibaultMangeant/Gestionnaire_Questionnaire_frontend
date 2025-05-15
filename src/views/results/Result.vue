@@ -10,6 +10,8 @@ import FalseTrueResult from '../../components/FalseTrueResult.vue';
 
 const route = useRoute();
 
+const breadcrumbsItems = ['Questionnaires', 'Résultats'];
+
 const title = ref('');
 const loading = ref(false);
 
@@ -51,6 +53,7 @@ onMounted(() =>
 </script>
 
 <template>
+	<v-breadcrumbs :items="breadcrumbsItems"></v-breadcrumbs>
 	<RouterLink to="/questionnaire/">
 		<v-btn icon="mdi-arrow-left"></v-btn>
 	</RouterLink>

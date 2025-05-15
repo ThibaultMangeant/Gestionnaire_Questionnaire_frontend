@@ -1,6 +1,6 @@
 <script setup>
 	import { ref, onMounted } from 'vue';
-	import { useRoute, useRouter } from 'vue-router';
+	import { useRoute } from 'vue-router';
 	import axios from '../axios.js';
 	import OpenEnded from '../components/OpenEnded.vue';
 	import Cursor from '../components/Cursor.vue';
@@ -9,7 +9,8 @@
 
 
 	const route = useRoute();
-	const router = useRouter();
+
+	const breadcrumbsItems = ['Questionnaires', 'Prévisualisation'];
 
 	const isPreview = route.fullPath.includes('preview');
 	const token = route.params.token;
@@ -91,7 +92,6 @@
 			})
 			.then(response =>
 			{
-				router
 				window.location.href="/questionnaire";
 				console.log(response.data);
 			})
@@ -155,6 +155,7 @@
 </script>
 
 <template>
+	<v-breadcrumbs v-if="isPreview" :items="breadcrumbsItems"></v-breadcrumbs>
 	<RouterLink v-if="isPreview" to="/questionnaire/">
 		<v-btn icon="mdi-arrow-left"></v-btn>
 	</RouterLink>
