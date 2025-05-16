@@ -91,17 +91,20 @@
 	{
 		if (!isPreview)
 		{
+			loading.value = true;
 			axios.put('/api/link/update/' + token,
 			{
 				state: 'Terminé',
 			})
 			.then(response =>
 			{
+				loading.value = false;
 				isEnded.value = true;
 				console.log(response.data);
 			})
 			.catch(error =>
 			{
+				loading.value = false;
 				console.error(error);
 			});
 		}
@@ -214,6 +217,7 @@
 				Question suivante
 			</v-btn>
 			<v-btn v-else-if="!isPreview" @click="sendAnswer(); endQuestionnaire();"
+				:loading="loading"
 				elevation="1"
 				class="ma-2"
 				append-icon="mdi-check-circle">
