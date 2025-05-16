@@ -25,6 +25,7 @@
 		value => {return value ? true : 'Vous devez saisir votre mot de passe'}
 	]
 
+
 	async function validate()
 	{
 		const { valid } = await form.value.validate();
@@ -43,18 +44,18 @@
 		{
 			email: email.value,
 			password: password.value,
-			remember: remember.value
+			remember: remember.value,
 		})
 		.then(response =>
 		{
 			loading.value = false;
-			console.log('Utilisateur connecté avec succès.')
+			console.log('Utilisateur connecté avec succès.', response.data);
 			window.location.href = '/questionnaire';
 		})
 		.catch(error =>
 		{
 			loading.value = false;
-			console.error("Erreur lors de la connexion de l'utilisateur.", error)
+			console.error("Erreur lors de la connexion de l'utilisateur.", error);
 		});
 	}
 
@@ -64,12 +65,12 @@
 		axios.get('/sanctum/csrf-cookie').then(response =>
 		{
 			loading.value = false;
-			console.log("crsf-cookie récupéré.");
+			console.log("crsf-cookie récupéré.", response.data);
 		})
 		.catch(error =>
 		{
 			loading.value = false;
-			console.error("Erreur lors de la récupération du csrf-cookie.")
+			console.error("Erreur lors de la récupération du csrf-cookie.", error);
 		});
 	});
 </script>
@@ -77,6 +78,7 @@
 <template>
 	<v-card title="Bienvenue !" subtitle="Connectez-vous !">
 		<v-form ref="form">
+
 			<v-text-field
 				v-model="email"
 				:rules="emailRules"
@@ -88,6 +90,7 @@
 				clearable
 				required>
 			</v-text-field>
+
 			<v-text-field @click:append-inner="showPassword = !showPassword"
 				v-model="password"
 				:rules="passwordRules"
@@ -99,12 +102,16 @@
 				hint="Attention à vérifier si le caps lock est activé"
 				required>
 			</v-text-field>
+
 			<v-checkbox
 				v-model="remember"
 				label="Se souvenir de moi">
 			</v-checkbox>
+
 			<v-divider></v-divider>
+
 			<p>Vous n'avez pas de compte ? <RouterLink to="/register">S'inscrire</RouterLink></p>
+
 			<v-btn @click.prevent="validate"
 				append-icon="mdi-login"
 				type="submit"
@@ -112,6 +119,7 @@
 				block>
 				Se connecter
 			</v-btn>
+
 		</v-form>
 	</v-card>
 	<p class="text-red">Les champs marqués d'un astérix (*) sont obligatoires.</p>

@@ -13,14 +13,14 @@
 	const breadcrumbsItems = ['Questionnaires', 'Prévisualisation'];
 
 	const isPreview = route.fullPath.includes('preview');
-	const token = route.params.token;
+	const token     = route.params.token;
 
-	const title = ref('');
-	const loading = ref(false);
+	const title           = ref('');
+	const loading         = ref(false);
 	const alreadyAnswered = ref(false);
 
 	const questions = ref([]);
-	const step = ref(0);
+	const step      = ref(0);
 
 	const answer = ref();
 
@@ -67,15 +67,19 @@
 				case 'Question ouverte':
 					answer.value = '';
 					break;
+
 				case 'Curseur':
 					answer.value = 0;
 					break;
+
 				case 'Question à choix multiple':
 					answer.value = [false, false, false, false, false];
 					break;
+
 				case 'Vrai/Faux':
 					answer.value = null;
 					break;
+
 				default:
 					answer.value = null;
 			}
@@ -92,8 +96,8 @@
 			})
 			.then(response =>
 			{
-				window.location.href="/questionnaire";
 				console.log(response.data);
+				window.location.href="/questionnaire";
 			})
 			.catch(error =>
 			{
@@ -109,13 +113,16 @@
 		if (isPreview)
 		{
 			title.value = 'Prévisualisation du questionnaire';
+
 			axios.get('/api/question/id/' + route.params.idQuestionnaire)
-			.then(response => {
+			.then(response =>
+			{
 				loading.value = false;
 				questions.value = response.data;
 				console.log(response);
 			})
-			.catch(error => {
+			.catch(error =>
+			{
 				loading.value = false;
 				console.error('Erreur lors de la récupération des questions.', error);
 			});
@@ -123,15 +130,19 @@
 		else if (!isPreview)
 		{
 			title.value = 'Visualisation du questionnaire';
+
 			axios.get('/api/question/token/' + token)
-			.then(response => {
+			.then(response =>
+			{
 				loading.value = false;
 				questions.value = response.data;
 				console.log(response);
 			})
-			.catch(error => {
+			.catch(error =>
+			{
 				loading.value = false;
 				console.error('Erreur lors de la récupération des questions.', error);
+
 				if (error.response.status === 403)
 				{
 					alreadyAnswered.value = true;
@@ -148,7 +159,7 @@
 			})
 			.catch(error =>
 			{
-				console.error(error);
+				console.error("Erreur lors de la mise à jour de l'état du lien.", error);
 			});
 		}
 	});
@@ -159,6 +170,7 @@
 	<RouterLink v-if="isPreview" to="/questionnaire/">
 		<v-btn icon="mdi-arrow-left"></v-btn>
 	</RouterLink>
+
 	<v-card v-if="!alreadyAnswered" :loading="loading" :title="title" width="600">
 		<v-divider class="border-opacity-75"></v-divider>
 
@@ -191,7 +203,9 @@
 				prepend-icon="mdi-arrow-left">
 				Question précèdente
 			</v-btn>
+
 			<v-spacer></v-spacer>
+
 			<v-btn v-if="step < questions.length - 1" @click="sendAnswer(); step++; resetAnswer();"
 				elevation="1"
 				class="ma-2"

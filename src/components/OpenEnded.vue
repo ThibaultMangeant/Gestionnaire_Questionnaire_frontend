@@ -1,29 +1,31 @@
 <script setup>
-import { ref, watch } from 'vue';
+	import { ref, watch } from 'vue';
 
-defineProps(
-{
-	question:
+
+	defineProps(
 	{
-		type: Object,
-		required: true,
-	}
-});
+		question:
+		{
+			type: Object,
+			required: true,
+		}
+	});
 
 
-const answer = ref('');
+	const answer = ref('');
 
-const emit = defineEmits(['update:answer']);
+	const emit = defineEmits(['update:answer']);
 
-watch(answer, (newVal) => {
-	emit('update:answer', newVal)
-})
+	watch(answer, (newVal) => {
+		emit('update:answer', newVal)
+	})
 </script>
 
 <template>
 	<v-sheet>
-		<h1 class="pl-5">{{ question.name }}</h1>
+		<h1 class="pl-5">{{ question.name    }}</h1>
 		<h2 class="pl-2">{{ question.content }}</h2>
+
 		<v-textarea
 			v-model="answer"
 			rows="1"

@@ -2,13 +2,14 @@
 	import axios from '../../axios.js';
 	import { ref, onMounted } from 'vue';
 
+
 	const loading = ref(false);
 
 	const form = ref();
 
-	const name = ref('');
-	const email = ref('');
-	const password = ref('');
+	const name            = ref('');
+	const email           = ref('');
+	const password        = ref('');
 	const confirmPassword = ref('');
 
 	const showPassword = ref(false);
@@ -18,6 +19,7 @@
 	[
 		value => { return value ? true : "Vous devez saisir un nom d'utilisateur"}
 	]
+
 	const emailRules =
 	[
 		value => { return value ? true : 'Vous devez saisir une adresse mail.'},
@@ -33,6 +35,7 @@
 	[
 		value => {return value === password.value ? true : "Le mot de passe n'est pas identique."}
 	]
+
 
 	async function validate()
 	{
@@ -50,10 +53,10 @@
 
 		axios.post('/register',
 		{
-			name: name.value,
-			email: email.value,
-			password: password.value,
-			password_confirmation: confirmPassword.value
+			name:                  name.value,
+			email:                 email.value,
+			password:              password.value,
+			password_confirmation: confirmPassword.value,
 		})
 		.then(response =>
 		{
@@ -75,12 +78,12 @@
 		axios.get('/sanctum/csrf-cookie').then(response =>
 		{
 			loading.value = false;
-			console.log("crsf-cookie récupéré.");
+			console.log("crsf-cookie récupéré.", response.data);
 		})
 		.catch(error =>
 		{
 			loading.value = false;
-			console.error("Erreur lors de la récupération du csrf-cookie.")
+			console.error("Erreur lors de la récupération du csrf-cookie.", error)
 		});
 	});
 </script>
@@ -88,6 +91,7 @@
 <template>
 	<v-card title="Inscription">
 		<v-form ref="form">
+
 			<v-text-field
 				v-model="name"
 				:rules="nameRules"
@@ -98,6 +102,7 @@
 				clearable
 				required>
 			</v-text-field>
+
 			<v-text-field
 				v-model="email"
 				:rules="emailRules"
@@ -109,6 +114,7 @@
 				clearable
 				required>
 			</v-text-field>
+
 			<v-text-field @click:append-inner="showPassword = !showPassword"
 				v-model="password"
 				:rules="passwordRules"
@@ -120,6 +126,7 @@
 				hint="Attention à vérifier si le caps lock est activé"
 				required>
 			</v-text-field>
+
 			<v-text-field
 				v-model="confirmPassword"
 				:rules="confirmPasswordRules"
@@ -131,8 +138,11 @@
 				clearable
 				required>
 			</v-text-field>
+
 			<v-divider></v-divider>
+
 			<p>Vous avez déjà un compte ? <RouterLink to="/login">Se connecter</RouterLink></p>
+
 			<v-btn @click.prevent="validate"
 				append-icon="mdi-login-variant"
 				type="submit"
@@ -140,6 +150,7 @@
 				block>
 				S'inscrire
 			</v-btn>
+
 		</v-form>
 	</v-card>
 	<p class="text-red">Les champs marqués d'un astérix (*) sont obligatoires.</p>

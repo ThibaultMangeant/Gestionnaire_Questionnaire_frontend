@@ -3,9 +3,10 @@
 	import axios from './axios.js';
 	import { onMounted, ref } from 'vue';
 
+
 	const user = ref('');
 
-	const rail = ref(true);
+	const rail   = ref(true);
 	const drawer = ref(true);
 
 	onMounted(() =>
@@ -14,11 +15,11 @@
 		.then(response => 
 		{
 			user.value = response.data;
-			console.log('Utilisateur récupérée', response.data);
+			console.log("Utilisateur récupérée", response.data);
 		})
 		.catch(error =>
 		{
-			console.error("Erreur lors de la récupération de l'utilisateur", error);
+			console.error("Erreur lors de la récupération de l'utilisateur.", error);
 		});
 	});
 </script>

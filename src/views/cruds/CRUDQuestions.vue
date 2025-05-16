@@ -3,6 +3,7 @@
 	import { ref, onMounted } from 'vue'
 	import { useRoute } from 'vue-router'
 
+
 	const route = useRoute();
 
 	const questions = ref([]);
@@ -13,11 +14,11 @@
 
 	const headers =
 	[
-		{ title: 'Nom', key: 'name'},
-		{ title: 'Énoncé', key: 'content' },
-		{ title: 'Type', key: 'question_type_name'},
-		{ title: 'Ordre', key: 'order'},
-		{ title: 'Actions', key: 'actions', align: 'center', sortable: false}
+		{ title: 'Nom'    , key: 'name'                                     },
+		{ title: 'Énoncé' , key: 'content'                                  },
+		{ title: 'Type'   , key: 'question_type_name'                       },
+		{ title: 'Ordre'  , key: 'order'                                    },
+		{ title: 'Actions', key: 'actions', align: 'center', sortable: false},
 	];
 
 	function fetchQuestions()
@@ -46,13 +47,13 @@
 		.then(response =>
 		{
 			loading.value = false;
-			console.log('Question supprimée avec succès.', response.data)
-			questions.value = questions.value.filter(q => q.id !== question.id)
+			console.log('Question supprimée avec succès.', response.data);
+			questions.value = questions.value.filter(q => q.id !== question.id);
 		})
 		.catch(error =>
 		{
 			loading.value = false;
-			console.error('Erreur lors de la suppression.', error)
+			console.error('Erreur lors de la suppression.', error);
 		});
 	}
 
@@ -62,8 +63,8 @@
 
 		if (indiceQuestion > 0 && indiceQuestion < questions.value.length)
 		{
-			const temp = questions.value[indiceQuestion];
-			questions.value[indiceQuestion] = questions.value[indiceQuestion - 1];
+			const temp                          = questions.value[indiceQuestion    ];
+			questions.value[indiceQuestion    ] = questions.value[indiceQuestion - 1];
 			questions.value[indiceQuestion - 1] = temp;
 		}
 	}
@@ -74,8 +75,8 @@
 
 		if (indiceQuestion >= 0 && indiceQuestion < questions.value.length - 1)
 		{
-			const temp = questions.value[indiceQuestion];
-			questions.value[indiceQuestion] = questions.value[indiceQuestion + 1];
+			const temp                          = questions.value[indiceQuestion    ];
+			questions.value[indiceQuestion    ] = questions.value[indiceQuestion + 1];
 			questions.value[indiceQuestion + 1] = temp;
 		}
 	}
@@ -91,6 +92,7 @@
 	<RouterLink to="/questionnaire">
 		<v-btn icon="mdi-arrow-left"></v-btn>
 	</RouterLink>
+
 	<h1>Questions</h1>
 
 	<!-- Bouton Add -->
@@ -105,6 +107,7 @@
 	<!-- Table Data -->
 	<div class="mt-4">
 		<v-data-table :items="questions" :loading="loading" :headers="headers">
+
 			<template v-slot:item.name="{ value }">
 				<v-chip
 					:text="value"
@@ -113,6 +116,7 @@
 					label>
 				</v-chip>
 			</template>
+
 			<template v-slot:item.actions="{ item }">
 				<div class="d-flex ga-2 justify-end">
 					<RouterLink :to="'/questionnaire/' + $route.params.idQuestionnaire + '/update/' + item.id">
@@ -131,13 +135,16 @@
 
 					<v-spacer></v-spacer>
 					<v-spacer></v-spacer>
+
 					<v-icon icon="mdi-arrow-up"   @click="slideUp(item)"  ></v-icon>
 					<v-icon icon="mdi-arrow-down" @click="slideDown(item)"></v-icon>
 				</div>
 			</template>
+
 			<template v-slot:no-data>
 				<p>Aucune question trouvée</p>
 			</template>
+
 		</v-data-table>
 	</div>
 </template>

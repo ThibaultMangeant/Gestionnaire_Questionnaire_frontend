@@ -3,6 +3,7 @@
 	import { ref, onMounted } from 'vue'
 	import { useRoute } from 'vue-router'
 
+
 	const route = useRoute();
 
 	const breadcrumbsItems = ['Questionnaires', 'Liens'];
@@ -24,12 +25,12 @@
 
 	const headers =
 	[
-		{ title: 'Token', key: 'token'},
-		{ title: 'Mail associé', key: 'usermail' },
-		{ title: 'État', key: 'state'},
-		{ title: 'Date de création', key: 'created_at'},
-		{ title: 'Date de mise à jour', key: 'updated_at'},
-		{ title: 'Actions', key: 'actions', align: 'center', sortable: false}
+		{ title: 'Token'              , key: 'token'                                       },
+		{ title: 'Mail associé'       , key: 'usermail'                                    },
+		{ title: 'État'               , key: 'state'                                       },
+		{ title: 'Date de création'   , key: 'created_at'                                  },
+		{ title: 'Date de mise à jour', key: 'updated_at'                                  },
+		{ title: 'Actions'            , key: 'actions'   , align: 'center', sortable: false},
 	];
 
 	async function validate()
@@ -47,12 +48,14 @@
 		loading.value = true;
 
 		axios.get('/api/link/' + route.params.idQuestionnaire)
-		.then(response => {
+		.then(response =>
+		{
 			loading.value = false;
 			links.value = response.data;
 			console.log(response);
 		})
-		.catch(error => {
+		.catch(error =>
+		{
 			loading.value = false;
 			console.error('Erreur lors de la récupération des liens.', error);
 		});
@@ -64,14 +67,16 @@
 
 		axios.post('/api/link/add/' + route.params.idQuestionnaire,
 		{
-			usermail: usermail.value
+			usermail: usermail.value,
 		})
-		.then(response => {
+		.then(response =>
+		{
 			loading.value = false;
 			links.value.push(response.data);
 			console.log(response.data);
 		})
-		.catch(error => {
+		.catch(error =>
+		{
 			loading.value = false;
 			console.error('Erreur lors de la création du lien.', error);
 		});
@@ -82,14 +87,16 @@
 		loading.value = true;
 
 		axios.delete(`/api/link/${route.params.idQuestionnaire}/${link.id}`)
-		.then(response => {
+		.then(response =>
+		{
 			loading.value = false;
-			console.log('Lien supprimée avec succès.', response.data)
-			links.value = links.value.filter(l => l.id !== link.id)
+			console.log('Lien supprimée avec succès.', response.data);
+			links.value = links.value.filter(l => l.id !== link.id);
 		})
-		.catch(error => {
+		.catch(error =>
+		{
 			loading.value = false;
-			console.error('Erreur lors de la suppression.', error)
+			console.error('Erreur lors de la suppression.', error);
 		});
 	}
 
@@ -114,11 +121,13 @@
 	<RouterLink to="/questionnaire">
 		<v-btn icon="mdi-arrow-left"></v-btn>
 	</RouterLink>
+
 	<h1>Liens</h1>
 
-	<!-- Bouton Add -->
+	<!-- Button Add -->
 	<div class="text-right my-4">
 		<v-dialog max-width="500">
+
 			<template v-slot:activator="{ props: activatorProps }">
 				<v-btn
 					v-bind="activatorProps"
@@ -154,12 +163,14 @@
 					</v-form>
 				</v-card>
 			</template>
+
 		</v-dialog>
 	</div>
 
 	<!-- Table Data -->
 	<div class="mt-4 position-relative">
 		<v-data-table :items="links" :loading="loading" :headers="headers">
+
 			<template v-slot:item.token="{ value }">
 				<v-chip
 					:text="value"
@@ -168,6 +179,7 @@
 					label>
 				</v-chip>
 			</template>
+
 			<template v-slot:item.actions="{ item }">
 				<div class="d-flex ga-2 justify-end">
 					<v-tooltip location="top" text="Supprimer">
@@ -183,9 +195,11 @@
 					</v-tooltip>
 				</div>
 			</template>
+
 			<template v-slot:no-data>
 				<p>Aucun lien trouvé</p>
 			</template>
+
 		</v-data-table>
 	</div>
 </template>

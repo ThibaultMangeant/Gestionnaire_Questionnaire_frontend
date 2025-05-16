@@ -14,15 +14,17 @@
 
 	const emit = defineEmits(['update:answer']);
 
-	watch(answer, (newVal) => {
+	watch(answer, (newVal) =>
+	{
 		emit('update:answer', newVal)
-	})
+	});
 </script>
 
 <template>
 	<v-sheet>
-		<h1 class="pl-5">{{ question.name }}</h1>
+		<h1 class="pl-5">{{ question.name    }}</h1>
 		<h2 class="pl-2">{{ question.content }}</h2>
+
 		<v-slider class="pa-3" color="#499ca5"
 			v-model="answer"
 			:min="question.type.min"

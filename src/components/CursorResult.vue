@@ -15,6 +15,7 @@ import
 
 import { Bar } from 'vue-chartjs';
 
+
 const props = defineProps(
 {
 	question:
@@ -42,7 +43,7 @@ const chartOptions =
 		title:
 		{
 			display: true,
-			text: 'Réponses'
+			text: 'Réponses',
 		}
 	},
 	scales:
@@ -54,7 +55,7 @@ const chartOptions =
 			ticks:
 			{
 				stepSize: 1,
-				callback: (value) => value + ' réponses'
+				callback: (value) => value + ' réponses',
 			}
 		}
 	}
@@ -68,8 +69,8 @@ onMounted(() =>
 	.then(response =>
 	{
 		numberOfAnswers.value = response.data.numberOfAnswers;
-		const labels = response.data.labels;
-		const counts = response.data.counts;
+		const labels          = response.data.labels;
+		const counts          = response.data.counts;
 
 		chartData.value =
 		{
@@ -79,7 +80,7 @@ onMounted(() =>
 				{
 					label: 'Nombre de réponses par proposition',
 					data: counts,
-					backgroundColor: '#499ca5'
+					backgroundColor: '#499ca5',
 				}
 			]
 		};

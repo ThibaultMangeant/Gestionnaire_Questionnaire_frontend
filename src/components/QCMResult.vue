@@ -1,107 +1,108 @@
 <script setup>
-import { ref, onMounted } from 'vue';
-import axios from '../axios.js';
+	import { ref, onMounted } from 'vue';
+	import axios from '../axios.js';
 
-import
-{
-	Chart as ChartJS,
-	Title,
-	Tooltip,
-	Legend,
-	BarElement,
-	CategoryScale,
-	LinearScale
-} from 'chart.js'
-
-import { Bar } from 'vue-chartjs';
-
-ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
-
-const props = defineProps(
-{
-	question:
+	import
 	{
-		type: Object,
-		required: true,
-	}
-});
+		Chart as ChartJS,
+		Title,
+		Tooltip,
+		Legend,
+		BarElement,
+		CategoryScale,
+		LinearScale
+	} from 'chart.js'
 
-const question = props.question;
-const loading = ref(false);
-const numberOfAnswers = ref();
-const chartData = ref(null);
+	import { Bar } from 'vue-chartjs';
 
-const chartOptions =
-{
-	responsive: true,
-	plugins:
+
+	ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
+
+	const props = defineProps(
 	{
-		title:
+		question:
 		{
-			display: true,
-			text: 'Réponses'
+			type: Object,
+			required: true,
 		}
-	},
-	scales:
+	});
+
+	const question = props.question;
+	const loading = ref(false);
+	const numberOfAnswers = ref();
+	const chartData = ref(null);
+
+	const chartOptions =
 	{
-		y:
+		responsive: true,
+		plugins:
 		{
-			beginAtZero: true,
-			min: 0,
-			ticks:
+			title:
 			{
-				stepSize: 1,
-				callback: (value) => value + ' réponses'
+				display: true,
+				text: 'Réponses'
+			}
+		},
+		scales:
+		{
+			y:
+			{
+				beginAtZero: true,
+				min: 0,
+				ticks:
+				{
+					stepSize: 1,
+					callback: (value) => value + ' réponses'
+				}
 			}
 		}
-	}
-};
+	};
 
-const labels =
-[
-	question.type.prop1,
-	question.type.prop2,
-	question.type.prop3,
-	question.type.prop4,
-	question.type.prop5,
-].filter(label => label); // élimine les null/undefined
+	const labels =
+	[
+		question.type.prop1,
+		question.type.prop2,
+		question.type.prop3,
+		question.type.prop4,
+		question.type.prop5,
+	].filter(label => label); // élimine les null/undefined
 
-onMounted(() =>
-{
-	loading.value = true;
-
-	axios.get('/api/result/numberAnswerQCM/' + question.id)
-	.then(response =>
+	onMounted(() =>
 	{
-		numberOfAnswers.value = response.data.numberOfAnswers;
-		const counts = response.data.counts;
+		loading.value = true;
 
-		chartData.value =
+		axios.get('/api/result/numberAnswerQCM/' + question.id)
+		.then(response =>
 		{
-			labels: labels,
-			datasets:
-			[
-				{
-					label: 'Nombre de réponses par proposition',
-					data: counts,
-					backgroundColor: '#499ca5'
-				}
-			]
-		};
+			numberOfAnswers.value = response.data.numberOfAnswers;
+			const counts          = response.data.counts;
 
-		loading.value = false;
-	})
-	.catch(error =>
-	{
-		console.error("Erreur lors de la récupération des réponses.", error);
-		loading.value = false;
+			chartData.value =
+			{
+				labels: labels,
+				datasets:
+				[
+					{
+						label: 'Nombre de réponses par proposition',
+						data: counts,
+						backgroundColor: '#499ca5',
+					}
+				]
+			};
+
+			loading.value = false;
+		})
+		.catch(error =>
+		{
+			console.error("Erreur lors de la récupération des réponses.", error);
+			loading.value = false;
+		});
 	});
-});
 </script>
 
 <template>
 	<v-sheet>
-		<h1 class="pl-5">{{ question.name }}</h1>
+		<h1 class="pl-5">{{ question.name    }}</h1>
 		<h2 class="pl-2">{{ question.content }}</h2>
 
 		<v-divider class="border-opacity-25"></v-divider>

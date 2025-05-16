@@ -3,6 +3,7 @@
 	import { ref, onMounted } from 'vue';
 	import { useRoute } from 'vue-router';
 
+
 	const route = useRoute();
 
 	const loading = ref(false);
@@ -11,10 +12,10 @@
 
 	const isUpdate = route.fullPath.includes('update');
 
-	const type = ref(null);
-	const name = ref('');
+	const type    = ref(null);
+	const name    = ref('');
 	const content = ref('');
-	const order = ref(0);
+	const order   = ref(0);
 
 	const min  = ref(0);
 	const max  = ref(1);
@@ -27,6 +28,7 @@
 	const prop5 = ref('');
 
 	const items = ['Question ouverte', 'Question à choix multiple', 'Vrai/Faux', 'Curseur'];
+
 
 	const typeRules =
 	[
@@ -66,6 +68,7 @@
 		value => { return value ? true : "Vous devez mettre cette proposition (au moins deux)"}
 	];
 
+
 	async function validate()
 	{
 		const { valid } = await form.value.validate();
@@ -87,7 +90,8 @@
 	{
 		loading.value = true;
 
-		axios.post('/api/question/' + route.params.idQuestionnaire, {
+		axios.post('/api/question/' + route.params.idQuestionnaire,
+		{
 			type: type.value,
 			name: name.value,
 			content: content.value,
@@ -101,12 +105,14 @@
 			prop4: prop4.value,
 			prop5: prop5.value
 		})
-		.then(response => {
+		.then(response =>
+		{
 			loading.value = false;
 			console.log(response);
 			window.location.href = "/questionnaire/" + route.params.idQuestionnaire;
 		})
-		.catch(error => {
+		.catch(error =>
+		{
 			loading.value = false;
 			console.error('Erreur lors de la création de la question :', error);
 			window.location.href = "/questionnaire/" + route.params.idQuestionnaire;
@@ -130,17 +136,18 @@
 			prop5: prop5.value,
 			min: min.value,
 			max: max.value,
-			step: step.value
+			step: step.value,
 		})
-		.then(response => {
+		.then(response =>
+		{
 			loading.value = false;
-			console.log(response);
+			console.log(response.data);
 			window.location.href = '/questionnaire/' + route.params.idQuestionnaire;
 		})
 		.catch(error =>
 		{
 			loading.value = false;
-			console.error('Erreur lors de la mise à jour du questionnaire.', error);
+			console.error('Erreur lors de la mise à jour de la question.', error);
 			window.location.href = '/questionnaire/' + route.params.idQuestionnaire;
 		});
 	}
@@ -164,19 +171,20 @@
 			.then(response =>
 			{
 				loading.value = false;
-				console.log(response);
-				type.value = response.data.question_type_name;
-				name.value = response.data.name;
+				console.log(response.data);
+
+				type.value    = response.data.question_type_name;
+				name.value    = response.data.name;
 				content.value = response.data.content;
-				order.value = response.data.order;
-				prop1.value = response.data.prop1;
-				prop2.value = response.data.prop2;
-				prop3.value = response.data.prop3;
-				prop4.value = response.data.prop4;
-				prop5.value = response.data.prop5;
-				min.value = response.data.min;
-				max.value = response.data.max;
-				step.value = response.data.step;
+				order.value   = response.data.order;
+				prop1.value   = response.data.prop1;
+				prop2.value   = response.data.prop2;
+				prop3.value   = response.data.prop3;
+				prop4.value   = response.data.prop4;
+				prop5.value   = response.data.prop5;
+				min.value     = response.data.min;
+				max.value     = response.data.max;
+				step.value    = response.data.step;
 			})
 			.catch(error =>
 			{
@@ -192,10 +200,13 @@
 	<RouterLink :to="'/questionnaire/' + route.params.idQuestionnaire">
 		<v-btn icon="mdi-arrow-left"></v-btn>
 	</RouterLink>
+
 	<v-card class="mt-3">
 		<v-card-title v-if="!isUpdate">Création d'une question</v-card-title>
 		<v-card-title v-else>Mise à jour d'une question</v-card-title>
+
 		<v-form ref="form">
+
 			<v-select @click="changeType()"
 				v-model="type"
 				:rules="typeRules"
@@ -214,6 +225,7 @@
 					type="number"
 					step="1">
 				</v-text-field>
+
 				<v-text-field v-if="type == 'Curseur'"
 					v-model="max"
 					:rules="maxRules"
@@ -222,6 +234,7 @@
 					type="number"
 					step="1">
 				</v-text-field>
+
 				<v-text-field v-if="type == 'Curseur'"
 					v-model="step"
 					:rules="stepRules"
@@ -241,6 +254,7 @@
 					label="Proposition 1 *"
 					clearable>
 				</v-text-field>
+
 				<v-text-field v-if="type == 'Question à choix multiple'"
 					v-model="prop2"
 					:rules="propsRules"
@@ -256,6 +270,7 @@
 					label="Proposition 3"
 					clearable>
 				</v-text-field>
+
 				<v-text-field v-if="type == 'Question à choix multiple'"
 					v-model="prop4"
 					variant="outlined"
@@ -270,7 +285,7 @@
 				clearable>
 			</v-text-field>
 
-			<!-- Any type -->
+			<!-- Any other type -->
 			<v-text-field
 				v-model="name"
 				variant="outlined"
@@ -278,6 +293,7 @@
 				placeholder="Question n°1"
 				clearable>
 			</v-text-field>
+
 			<v-text-field
 				v-model="content"
 				:rules="contentRules"
@@ -286,6 +302,7 @@
 				placeholder="Quel est la couleur du ciel ?"
 				clearable>
 			</v-text-field>
+
 			<v-text-field
 				v-model="order"
 				:rules="orderRules"
@@ -295,6 +312,7 @@
 				min="0"
 				step="1">
 			</v-text-field>
+
 			<v-btn v-if="!isUpdate" @click.prevent="validate()"
 				append-icon="mdi-check-circle"
 				type="submit"
@@ -309,6 +327,7 @@
 				block>
 				Mettre à jour la question
 			</v-btn>
+
 		</v-form>
 	</v-card>
 	<p class="text-red">Les champs marqués d'un astérix (*) sont obligatoires.</p>

@@ -1,27 +1,28 @@
 <script setup>
-import axios from '../axios.js';
+	import axios from '../axios.js';
 
-defineProps({
-	user:
+	defineProps(
 	{
-		type: String,
-		required: false,
-	}
-});
-
-function logout()
-{
-	axios.post('/logout')
-	.then(response =>
-	{
-		window.location.href = '/login'
-		console.log('Déconnexion réussi.');
-	})
-	.catch(error =>
-	{
-		console.error('Erreur lors de la déconnexion.', error);
+		user:
+		{
+			type: String,
+			required: false,
+		}
 	});
-}
+
+	function logout()
+	{
+		axios.post('/logout')
+		.then(response =>
+		{
+			window.location.href = '/login'
+			console.log('Déconnexion réussi.');
+		})
+		.catch(error =>
+		{
+			console.error('Erreur lors de la déconnexion.', error);
+		});
+	}
 </script>
 
 <template>
@@ -39,7 +40,9 @@ function logout()
 					<v-card-text>
 						<div class="mx-auto text-center">
 							<v-avatar image="src/assets/1723015480__Carole_compressé.jpg" size="64"></v-avatar>
+
 							<v-divider class="my-3"></v-divider>
+
 							<RouterLink to="/login">
 								<v-btn
 									append-icon="mdi-login"
@@ -48,7 +51,9 @@ function logout()
 									Connexion
 								</v-btn>
 							</RouterLink>
+
 							<v-divider class="my-3"></v-divider>
+
 							<RouterLink to="/register">
 								<v-btn
 									append-icon="mdi-login-variant"
@@ -57,7 +62,9 @@ function logout()
 									Inscription
 								</v-btn>
 							</RouterLink>
+
 							<v-divider class="my-3"></v-divider>
+
 							<span>
 								<v-btn @click="logout"
 									append-icon="mdi-logout"

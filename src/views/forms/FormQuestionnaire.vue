@@ -11,13 +11,15 @@
 
 	const form = ref();
 
-	const name = ref('');
+	const name        = ref('');
 	const description = ref('');
+
 
 	const nameRules =
 	[
 		value => { return value ? true : "Vous devez saisir un nom de questionnaire."}
 	]
+
 
 	async function validate()
 	{
@@ -42,15 +44,17 @@
 
 		axios.post('/api/questionnaire',
 		{
-			name: name.value,
-			description: description.value
+			name:        name.value,
+			description: description.value,
 		})
-		.then(response => {
+		.then(response =>
+		{
 			loading.value = false;
-			console.log(response);
+			console.log(response.data);
 			window.location.href = '/questionnaire';
 		})
-		.catch(error => {
+		.catch(error =>
+		{
 			loading.value = false;
 			console.error('Erreur lors de la création du questionnaire.', error);
 			window.location.href = '/questionnaire';
@@ -63,10 +67,11 @@
 
 		axios.put(`/api/questionnaire/${route.params.idQuestionnaire}`,
 		{
-			name: name.value,
-			description: description.value
+			name:        name.value,
+			description: description.value,
 		})
-		.then(response => {
+		.then(response =>
+		{
 			loading.value = false;
 			console.log(response);
 			window.location.href = '/questionnaire';
@@ -90,7 +95,8 @@
 			{
 				loading.value = false;
 				console.log(response);
-				name.value = response.data.name;
+
+				name.value        = response.data.name;
 				description.value = response.data.description;
 			})
 			.catch(error =>
@@ -107,10 +113,13 @@
 	<RouterLink to="/questionnaire">
 		<v-btn icon="mdi-arrow-left"></v-btn>
 	</RouterLink>
+
 	<v-card>
 		<v-card-title v-if="!isUpdate">Création d'un questionnaire</v-card-title>
 		<v-card-title v-else>Mise à jour d'un questionnaire</v-card-title>
+
 		<v-form ref="form">
+
 			<v-text-field
 				v-model="name"
 				:rules="nameRules"
@@ -119,12 +128,14 @@
 				clearable
 				required>
 			</v-text-field>
+
 			<v-textarea
 				v-model="description"
 				variant="outlined"
 				label="Description du questionnaire"
 				clearable>
 			</v-textarea>
+
 			<v-btn v-if="!isUpdate" @click.prevent="validate"
 				append-icon="mdi-check-circle"
 				type="submit"
@@ -139,6 +150,7 @@
 				block>
 				Mettre à jour le questionnaire
 			</v-btn>
+
 		</v-form>
 	</v-card>
 	<p class="text-red">Les champs marqués d'un astérix (*) sont obligatoires.</p>

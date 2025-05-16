@@ -15,6 +15,7 @@ import
 
 import { Bar } from 'vue-chartjs';
 
+
 const props = defineProps(
 {
 	question:
@@ -74,7 +75,7 @@ onMounted(() =>
 	.then(response =>
 	{
 		numberOfAnswers.value = response.data.numberOfAnswers;
-		const counts = response.data.counts;
+		const counts          = response.data.counts;
 
 		chartData.value =
 		{
@@ -84,7 +85,7 @@ onMounted(() =>
 				{
 					label: 'Nombre de réponses par proposition',
 					data: counts,
-					backgroundColor: '#499ca5'
+					backgroundColor: '#499ca5',
 				}
 			]
 		};
@@ -101,7 +102,7 @@ onMounted(() =>
 
 <template>
 	<v-sheet>
-		<h1 class="pl-5">{{ question.name }}</h1>
+		<h1 class="pl-5">{{ question.name    }}</h1>
 		<h2 class="pl-2">{{ question.content }}</h2>
 
 		<v-divider class="border-opacity-25"></v-divider>

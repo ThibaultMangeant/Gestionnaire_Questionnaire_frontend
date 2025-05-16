@@ -8,29 +8,30 @@ import CursorResult from '../../components/CursorResult.vue';
 import QCMResult from '../../components/QCMResult.vue';
 import FalseTrueResult from '../../components/FalseTrueResult.vue';
 
+
 const route = useRoute();
 
 const breadcrumbsItems = ['Questionnaires', 'Résultats'];
 
-const title = ref('');
+const title   = ref('');
 const loading = ref(false);
 
 const numberPeopleInvited = ref();
 
 const questions = ref([]);
-const step = ref(0);
+const step      = ref(0);
 
 
 onMounted(() =>
 {
 	loading.value = true;
+	title.value   = 'Résultats du questionnaire';
 
-	title.value = 'Résultats du questionnaire';
 	axios.get('/api/result/numberPeopleInvited/' + route.params.idQuestionnaire)
 	.then(response =>
 	{
 		numberPeopleInvited.value = response.data;
-		console.log("Nombre de personnes invités récupérés avec succès", response);
+		console.log("Nombre de personnes invités récupérés avec succès", response.data);
 	})
 	.catch(error =>
 	{
@@ -40,9 +41,9 @@ onMounted(() =>
 	axios.get('/api/question/id/' + route.params.idQuestionnaire)
 	.then(response =>
 	{
-		loading.value = false;
+		loading.value   = false;
 		questions.value = response.data;
-		console.log("Questions récupérés avec succès.", response);
+		console.log("Questions récupérés avec succès.", response.data);
 	})
 	.catch(error =>
 	{
@@ -59,6 +60,7 @@ onMounted(() =>
 	</RouterLink>
 
 	<v-card :loading="loading" :title="title" width="600">
+
 		<v-divider class="border-opacity-75"></v-divider>
 			<p v-if="numberPeopleInvited > 0" class="pl-2">Nombre de personnes invités à répondre : {{ numberPeopleInvited }}</p>
 		<v-divider class="border-opacity-75"></v-divider>
@@ -87,7 +89,9 @@ onMounted(() =>
 				prepend-icon="mdi-arrow-left">
 				Question précèdente
 			</v-btn>
+
 			<v-spacer></v-spacer>
+
 			<v-btn v-if="step < questions.length - 1" @click="step++"
 				elevation="1"
 				class="ma-2"
