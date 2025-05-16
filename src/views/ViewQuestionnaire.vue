@@ -35,11 +35,11 @@
 			})
 			.then(response =>
 			{
-				console.log(response.data);
+
 			})
 			.catch(error =>
 			{
-				console.error(error);
+
 			});
 
 			axios.put('/api/link/update/' + token,
@@ -48,11 +48,11 @@
 			})
 			.then(response =>
 			{
-				console.log(response.data);
+
 			})
 			.catch(error =>
 			{
-				console.error(error);
+
 			});
 		}
 	}
@@ -100,12 +100,10 @@
 			{
 				loading.value = false;
 				isEnded.value = true;
-				console.log(response.data);
 			})
 			.catch(error =>
 			{
 				loading.value = false;
-				console.error(error);
 			});
 		}
 	}
@@ -123,12 +121,10 @@
 			{
 				loading.value = false;
 				questions.value = response.data;
-				console.log(response);
 			})
 			.catch(error =>
 			{
 				loading.value = false;
-				console.error('Erreur lors de la récupération des questions.', error);
 			});
 		}
 		else if (!isPreview)
@@ -140,12 +136,10 @@
 			{
 				loading.value = false;
 				questions.value = response.data;
-				console.log(response);
 			})
 			.catch(error =>
 			{
 				loading.value = false;
-				console.error('Erreur lors de la récupération des questions.', error);
 
 				if (error.response.status === 403)
 				{
@@ -159,11 +153,11 @@
 			})
 			.then(response =>
 			{
-				console.log(response.data);
+
 			})
 			.catch(error =>
 			{
-				console.error("Erreur lors de la mise à jour de l'état du lien.", error);
+				
 			});
 		}
 	});

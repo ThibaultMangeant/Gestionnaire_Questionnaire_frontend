@@ -30,12 +30,10 @@
 		{
 			loading.value = false;
 			questions.value = response.data;
-			console.log(response);
 		})
 		.catch(error =>
 		{
 			loading.value = false;
-			console.error('Erreur lors de la récupération des questions.', error);
 		});
 	}
 
@@ -47,13 +45,11 @@
 		.then(response =>
 		{
 			loading.value = false;
-			console.log('Question supprimée avec succès.', response.data);
 			questions.value = questions.value.filter(q => q.id !== question.id);
 		})
 		.catch(error =>
 		{
 			loading.value = false;
-			console.error('Erreur lors de la suppression.', error);
 		});
 	}
 

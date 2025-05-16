@@ -52,12 +52,10 @@
 		{
 			loading.value = false;
 			links.value = response.data;
-			console.log(response);
 		})
 		.catch(error =>
 		{
 			loading.value = false;
-			console.error('Erreur lors de la récupération des liens.', error);
 		});
 	}
 
@@ -73,12 +71,10 @@
 		{
 			loading.value = false;
 			links.value.push(response.data);
-			console.log(response.data);
 		})
 		.catch(error =>
 		{
 			loading.value = false;
-			console.error('Erreur lors de la création du lien.', error);
 		});
 	}
 
@@ -90,13 +86,11 @@
 		.then(response =>
 		{
 			loading.value = false;
-			console.log('Lien supprimée avec succès.', response.data);
 			links.value = links.value.filter(l => l.id !== link.id);
 		})
 		.catch(error =>
 		{
 			loading.value = false;
-			console.error('Erreur lors de la suppression.', error);
 		});
 	}
 

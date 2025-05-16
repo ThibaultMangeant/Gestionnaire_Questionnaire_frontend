@@ -94,7 +94,6 @@ onMounted(() =>
 	})
 	.catch(error =>
 	{
-		console.error("Erreur lors de la récupération des réponses.", error);
 		loading.value = false;
 	});
 });

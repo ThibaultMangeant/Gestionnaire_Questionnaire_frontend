@@ -36,12 +36,10 @@ onMounted(() =>
 		{
 			answers.value.push(element.answer);
 		});
-		console.log("Réponses récupérées avec succès.", response);
 	})
 	.catch(error =>
 	{
 		loading.value = false;
-		console.error("Erreur lors de la récupération des réponses.", error);
 	});
 });
 </script>

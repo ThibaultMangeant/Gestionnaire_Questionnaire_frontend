@@ -31,11 +31,10 @@ onMounted(() =>
 	.then(response =>
 	{
 		numberPeopleInvited.value = response.data;
-		console.log("Nombre de personnes invités récupérés avec succès", response.data);
 	})
 	.catch(error =>
 	{
-		console.error("Erreur lors de la récupération du nombre de personnes invités.", error);
+
 	});
 
 	axios.get('/api/question/id/' + route.params.idQuestionnaire)
@@ -43,12 +42,10 @@ onMounted(() =>
 	{
 		loading.value   = false;
 		questions.value = response.data;
-		console.log("Questions récupérés avec succès.", response.data);
 	})
 	.catch(error =>
 	{
 		loading.value = false;
-		console.error('Erreur lors de la récupération des questions.', error);
 	});
 });
 </script>

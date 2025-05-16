@@ -1,6 +1,7 @@
 <script setup>
 	import axios from '../axios.js';
 
+
 	defineProps(
 	{
 		user:
@@ -16,11 +17,10 @@
 		.then(response =>
 		{
 			window.location.href = '/login'
-			console.log('Déconnexion réussi.');
 		})
 		.catch(error =>
 		{
-			console.error('Erreur lors de la déconnexion.', error);
+
 		});
 	}
 </script>

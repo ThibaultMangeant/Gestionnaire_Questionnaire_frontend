@@ -28,12 +28,10 @@
 		{
 			loading.value = false;
 			questionnaires.value = response.data;
-			console.log(response);
 		})
 		.catch(error =>
 		{
 			loading.value = false;
-			console.error('Erreur lors de la récupération des questionnaires :', error);
 		});
 	}
 
@@ -45,13 +43,11 @@
 		.then(response =>
 		{
 			loading.value = false;
-			console.log('Questionnaire supprimé avec succès', response.data);
 			questionnaires.value = questionnaires.value.filter(q => q.id !== questionnaire.id);
 		})
 		.catch(error =>
 		{
 			loading.value = false;
-			console.error('Erreur lors de la suppression', error);
 		});
 	}
 

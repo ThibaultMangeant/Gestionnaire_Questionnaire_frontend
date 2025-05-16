@@ -49,13 +49,11 @@
 		.then(response =>
 		{
 			loading.value = false;
-			console.log('Utilisateur connecté avec succès.', response.data);
 			window.location.href = '/questionnaire';
 		})
 		.catch(error =>
 		{
 			loading.value = false;
-			console.error("Erreur lors de la connexion de l'utilisateur.", error);
 		});
 	}
 
@@ -65,12 +63,10 @@
 		axios.get('/sanctum/csrf-cookie').then(response =>
 		{
 			loading.value = false;
-			console.log("crsf-cookie récupéré.", response.data);
 		})
 		.catch(error =>
 		{
 			loading.value = false;
-			console.error("Erreur lors de la récupération du csrf-cookie.", error);
 		});
 	});
 </script>

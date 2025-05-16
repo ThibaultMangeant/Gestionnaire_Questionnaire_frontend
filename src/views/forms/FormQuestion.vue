@@ -108,13 +108,11 @@
 		.then(response =>
 		{
 			loading.value = false;
-			console.log(response);
 			window.location.href = "/questionnaire/" + route.params.idQuestionnaire;
 		})
 		.catch(error =>
 		{
 			loading.value = false;
-			console.error('Erreur lors de la création de la question :', error);
 			window.location.href = "/questionnaire/" + route.params.idQuestionnaire;
 		});
 	}
@@ -141,13 +139,11 @@
 		.then(response =>
 		{
 			loading.value = false;
-			console.log(response.data);
 			window.location.href = '/questionnaire/' + route.params.idQuestionnaire;
 		})
 		.catch(error =>
 		{
 			loading.value = false;
-			console.error('Erreur lors de la mise à jour de la question.', error);
 			window.location.href = '/questionnaire/' + route.params.idQuestionnaire;
 		});
 	}
@@ -171,7 +167,6 @@
 		.catch(error =>
 		{
 			order.value = 0;
-			console.error("Erreur lors de la récupération du dernière ordre", error);
 		});
 
 		if (isUpdate)
@@ -182,7 +177,6 @@
 			.then(response =>
 			{
 				loading.value = false;
-				console.log(response.data);
 
 				type.value    = response.data.question_type_name;
 				name.value    = response.data.name;
@@ -200,7 +194,6 @@
 			.catch(error =>
 			{
 				loading.value = false;
-				console.error('Erreur lors de la récupération du questionnaire.', error);
 				window.location.href = '/questionnaire/' + route.params.idQuestionnaire;
 			});
 		}
