@@ -163,11 +163,22 @@
 
 	onMounted(() =>
 	{
+		axios.get(`/api/question/lastOrder/${route.params.idQuestionnaire}`)
+		.then(response =>
+		{
+			order.value = response.data;
+		})
+		.catch(error =>
+		{
+			order.value = 0;
+			console.error("Erreur lors de la récupération du dernière ordre", error);
+		});
+
 		if (isUpdate)
 		{
 			loading.value = true;
 
-			axios.get(`/api/question/${route.params.idQuestionnaire}/${route.params.id}`)
+			axios.get(`/api/question/one/${route.params.idQuestionnaire}/${route.params.id}`)
 			.then(response =>
 			{
 				loading.value = false;
