@@ -25,7 +25,8 @@
 
 	const emit = defineEmits(['update:answer']);
 
-	watch(answer, (newVal) => {
+	watch(answer, (newVal) =>
+	{
 		emit('update:answer', newVal)
 	}, {deep: true});
 </script>
