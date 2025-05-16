@@ -5,6 +5,7 @@ import App from './App.vue'
 import router from './router'
 
 import { createVuetify } from 'vuetify'
+import { fr } from 'vuetify/locale';
 import * as components from 'vuetify/components'
 import * as directives from 'vuetify/directives'
 import { aliases, mdi } from 'vuetify/iconsets/mdi'
@@ -22,7 +23,12 @@ const vuetify = createVuetify
 			sets: {
 				mdi
 			}
-		}
+		},
+		locale:
+		{
+			locale: 'fr',
+			messages: { fr },
+		},
 	}
 );
 
