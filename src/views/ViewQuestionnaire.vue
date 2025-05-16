@@ -18,6 +18,7 @@
 	const title           = ref('');
 	const loading         = ref(false);
 	const alreadyAnswered = ref(false);
+	const isEnded         = ref(false);
 
 	const questions = ref([]);
 	const step      = ref(0);
@@ -96,8 +97,8 @@
 			})
 			.then(response =>
 			{
+				isEnded.value = true;
 				console.log(response.data);
-				window.location.href="/questionnaire";
 			})
 			.catch(error =>
 			{
@@ -171,7 +172,7 @@
 		<v-btn icon="mdi-arrow-left"></v-btn>
 	</RouterLink>
 
-	<v-card v-if="!alreadyAnswered" :loading="loading" :title="title" width="600">
+	<v-card v-if="!alreadyAnswered && !isEnded" :loading="loading" :title="title" width="600">
 		<v-divider class="border-opacity-75"></v-divider>
 
 		<OpenEnded
@@ -220,5 +221,10 @@
 			</v-btn>
 		</v-card-actions>
 	</v-card>
-	<h1 v-else>Vous avez déjà répondu à ce questionnaire</h1>
+	<h1 v-else-if="alreadyAnswered">Vous avez déjà répondu à ce questionnaire</h1>
+
+	<div v-else-if="isEnded" class="text-center">
+		<h1>Fin du questionnaire ! </h1>
+		<h2>Merci d'avoir répondu !</h2>
+	</div>
 </template>
