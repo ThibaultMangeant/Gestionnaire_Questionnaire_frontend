@@ -162,7 +162,10 @@
 		axios.get(`/api/question/lastOrder/${route.params.idQuestionnaire}`)
 		.then(response =>
 		{
-			order.value = response.data;
+			if (Number.isInteger(response.data))
+			{
+				order.value = response.data + 1;
+			}
 		})
 		.catch(error =>
 		{

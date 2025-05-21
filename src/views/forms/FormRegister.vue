@@ -85,7 +85,7 @@
 </script>
 
 <template>
-	<v-card title="Inscription">
+	<v-card title="Bienvenue !" subtitle="Inscrivez-vous !">
 		<v-form ref="form">
 
 			<v-text-field
