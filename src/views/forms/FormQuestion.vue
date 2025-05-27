@@ -208,7 +208,7 @@
 		<v-btn icon="mdi-arrow-left"></v-btn>
 	</RouterLink>
 
-	<v-card class="mt-3">
+	<v-card class="mt-5">
 		<v-card-title v-if="!isUpdate">Création d'une question</v-card-title>
 		<v-card-title v-else>Mise à jour d'une question</v-card-title>
 

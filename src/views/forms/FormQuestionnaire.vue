@@ -108,7 +108,7 @@
 		<v-btn icon="mdi-arrow-left"></v-btn>
 	</RouterLink>
 
-	<v-card>
+	<v-card class="mt-5">
 		<v-card-title v-if="!isUpdate">Création d'un questionnaire</v-card-title>
 		<v-card-title v-else>Mise à jour d'un questionnaire</v-card-title>
 

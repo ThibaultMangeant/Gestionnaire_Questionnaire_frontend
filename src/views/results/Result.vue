@@ -56,7 +56,7 @@ onMounted(() =>
 		<v-btn icon="mdi-arrow-left"></v-btn>
 	</RouterLink>
 
-	<v-card :loading="loading" :title="title" width="600">
+	<v-card :loading="loading" :title="title" width="600" class="mt-5">
 
 		<v-divider class="border-opacity-75"></v-divider>
 			<p v-if="numberPeopleInvited > 0" class="pl-2">Nombre de personnes invités à répondre : {{ numberPeopleInvited }}</p>
